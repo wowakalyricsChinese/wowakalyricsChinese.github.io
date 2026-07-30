@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>WONDER and WONDER · 歌词中译本</title>
+  <style>
+    /* ========== 全局重置与文学配色 ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #faf8f5; color: #3b3a36;
+      font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", "Georgia", "华文中宋", "宋体", serif;
+      line-height: 1.8; font-size: 18px; transition: all 0.2s ease;
+    }
+    .main-container {
+      max-width: 780px; margin: 0 auto; padding: 60px 30px 120px 30px;
+    }
+    .site-header {
+      text-align: center; margin-bottom: 70px; border-bottom: 1px solid #e0dcd3;
+      padding-bottom: 30px;
+    }
+    .site-header h1 { font-size: 2.4rem; font-weight: 400; letter-spacing: 4px; margin-bottom: 10px; color: #4a463b; }
+    .site-header p { font-size: 1rem; color: #8b8678; font-style: italic; }
+    .back-link {
+      display: inline-block; margin-top: 25px; text-decoration: none; color: #8b8678;
+      padding: 8px 18px; border: 1px solid #d4cec2; border-radius: 25px; font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .back-link:hover { background-color: #4a463b; color: #faf8f5; border-color: #4a463b; }
+
+    /* ========== 侧边目录栏 (桌面固定) ========== */
+    .sidebar-toc {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      max-height: 75vh;
+      width: 240px;
+      background-color: rgba(250, 248, 245, 0.88);
+      backdrop-filter: blur(6px);
+      border: 1px solid #e0dcd3;
+      border-radius: 8px;
+      padding: 20px 15px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .sidebar-toc::-webkit-scrollbar { width: 4px; }
+    .sidebar-toc::-webkit-scrollbar-thumb { background: #d4cec2; border-radius: 4px; }
+    .sidebar-toc::-webkit-scrollbar-track { background: transparent; }
+
+    .sidebar-toc h3 {
+      font-size: 0.9rem; letter-spacing: 2px; color: #8b8678;
+      margin-bottom: 12px; text-align: center; font-weight: 400;
+      border-bottom: 1px solid #e0dcd3; padding-bottom: 8px;
+    }
+    .toc-back-btn {
+      display: block;
+      text-decoration: none;
+      color: #8b8678;
+      font-size: 0.82rem;
+      padding: 5px 8px;
+      margin-top: 16px;
+      border: 1px solid #d4cec2;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.3);
+    }
+    .toc-back-btn:hover {
+      background-color: #4a463b;
+      color: #faf8f5;
+      border-color: #4a463b;
+    }
+    .sidebar-toc ul { list-style: none; }
+    .sidebar-toc li { margin-bottom: 4px; }
+    .sidebar-toc a {
+      text-decoration: none; color: #6b665b; font-size: 0.82rem;
+      display: block; padding: 3px 8px; border-radius: 4px;
+      transition: all 0.2s; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .sidebar-toc a:hover { background-color: #e8e4da; color: #3b3a36; }
+    .sidebar-toc a.toc-active {
+      background-color: #4a463b; color: #faf8f5; font-weight: 500;
+    }
+    .sidebar-toc .toc-album {
+      font-size: 0.78rem; color: #a09b8f; padding: 8px 8px 4px 8px;
+      letter-spacing: 1px; border-bottom: 1px dashed #e0dcd3;
+      margin-top: 8px; font-weight: 500; cursor: default;
+    }
+    .sidebar-toc .toc-album:first-of-type { margin-top: 0; }
+
+    /* ========== 移动端适配 ========== */
+    @media (max-width: 1024px) {
+      .sidebar-toc {
+        position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
+        width: 220px; max-height: 60vh;
+        background-color: rgba(250, 248, 245, 0.96);
+        backdrop-filter: blur(8px); border: 1px solid #e0dcd3;
+        border-radius: 10px; padding: 16px 12px;
+        display: none; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+      }
+      .sidebar-toc.visible { display: block; }
+      .main-container { padding: 30px 20px 80px 20px; }
+    }
+
+    /* ========== 移动端浮动目录按钮 ========== */
+    .toc-toggle-btn {
+      display: none;
+      position: fixed;
+      left: 20px;
+      bottom: 40px;
+      background: #4a463b;
+      color: #faf8f5;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      font-size: 1.5rem;
+      z-index: 200;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toc-toggle-btn:hover { background: #5b5547; }
+    .toc-toggle-btn:active { transform: scale(0.94); }
+    @media (max-width: 1024px) { .toc-toggle-btn { display: flex; } }
+
+    /* ========== 歌词章节样式 ========== */
+    .song-section { margin-bottom: 80px; scroll-margin-top: 50px; }
+    .song-title {
+      font-size: 1.8rem; font-weight: 400; margin-bottom: 10px; color: #4a463b;
+      border-left: 4px solid #c2b8a7; padding-left: 18px;
+    }
+    .song-subtitle { font-size: 0.9rem; color: #8b8678; margin-bottom: 25px; padding-left: 22px; }
+    .lyrics-block { margin-bottom: 25px; }
+    .lyrics-block p { margin-bottom: 12px; }
+    .annotation-block {
+      background-color: #f3efe8; border-left: 3px solid #c2b8a7; padding: 15px 20px;
+      margin: 25px 0 35px 0; font-size: 0.9rem; color: #5b564a; border-radius: 0 6px 6px 0;
+    }
+    .annotation-block h4 { font-weight: 500; margin-bottom: 8px; color: #4a463b; }
+    .annotation-block p { margin-bottom: 8px; line-height: 1.7; }
+
+    /* ========== 专辑分隔标题 ========== */
+    .album-divider {
+      text-align: center; margin: 100px 0 60px 0; padding: 30px 0;
+      border-top: 1px solid #e0dcd3; border-bottom: 1px solid #e0dcd3;
+    }
+    .album-divider h2 { font-size: 1.5rem; font-weight: 400; color: #6b665b; letter-spacing: 3px; margin-bottom: 8px; }
+    .album-divider p { font-size: 0.85rem; color: #a09b8f; font-style: italic; }
+
+    .site-footer {
+      text-align: center; margin-top: 80px; padding-top: 25px; border-top: 1px solid #e0dcd3;
+      font-size: 0.85rem; color: #8b8678;
+    }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body>
+
+  <!-- 移动端浮动目录按钮 -->
+  <button class="toc-toggle-btn" id="tocToggleBtn" aria-label="目录">☰</button>
+
+  <div class="main-container">
+    <header class="site-header">
+      <h1>WONDER and WONDER</h1>
+      <p>wowaka 歌词中译本</p>
+      <a href="index.html" class="back-link">← 返回总目录</a>
+    </header>
+
+    <!-- ========== 侧边目录栏 ========== -->
+    <nav class="sidebar-toc" id="sidebarToc">
+      <h3>全部目录</h3>
+      <ul id="tocList"></ul>
+      <a href="index.html" class="toc-back-btn">← 返回总目录</a>
+    </nav>
+
+    <!-- ==================== WONDER and WONDER 专辑歌词内容 ==================== -->
+    <div class="album-divider" id="album-vocaloid">
+      <h2>《WONDER and WONDER》</h2>
+      <p>全12首</p>
+    </div>
+
+   <div class="song-section" id="song35">
+      <h2 class="song-title">1. 终着点</h2>
+      <p class="song-subtitle">終着点</p>
+      <div class="lyrics-block">
+        <p>被看透的&emsp;言语&emsp;言语<br>面对落空了的你&emsp;我今天依旧&emsp;是吧<br>我想凭借这副金玉其外的空壳试着传达一二<br>不可思议地&emsp;却没有回应<br><br>你看，事情进展得不怎么顺利呢<br>索然无味地摇曳的警报声<br>被迫察觉到的&emsp;言语&emsp;言语<br>今天啊&emsp;又有一个&emsp;消失了&emsp;消失了<br><br>被蒙混过去的&emsp;言语&emsp;言语<br>你那满溢而出的感情论<br>真想彻底胡闹一场&emsp;试着将其毁坏<br>反正已经逃不掉了&emsp;一定<br><br>呐&emsp;事情进展得不怎么顺利呢<br>草草了事地消失的警报声<br>被看透的&emsp;你和我<br>今天啊&emsp;也还是&emsp;一个两个地&emsp;嘛<br><br>凭着已然遗忘的言语的强烈<br>于舞台之上&emsp;拉帮结派<br>一边唱着&emsp;恼人的、不吉利的歌<br>一边笑着&emsp;笑着<br><br>逼近，逼近，逼近过来了，那未来的罗列<br>那正是，循环往复、循环往复的世界定式<br><br>「时至今日，又与我何干。给我把看似成熟的娱乐一脚踹飞！」<br><br>那辉煌璀璨的、风平浪静的、不可名状的萍水相逢般的所谓共情<br>我绝不需要。我如此断念，如此断念<br>独自一人，将这份固执己见肆意播撒<br><br>啊啊&emsp;明朗到无以复加&emsp;无以复加<br><br>天真无邪的你&emsp;今天依旧缺席<br>被看透的&emsp;言语&emsp;言语<br>反正已经逃不掉了&emsp;即便如此<br><br>呐&emsp;事情进展得不怎么顺利呢<br>我今日也依旧&emsp;面对着落空了的你<br>被迫意识到的&emsp;言语&emsp;言语<br>拼尽全力地&emsp;一个&emsp;两个<br><br>凭借着愈演愈烈的荒诞队列<br>此刻&emsp;将那早已串联好的台词&emsp;再度篡改<br>把一切答案&emsp;都给我呕出丢掉！<br>就连那件事情&emsp;我也已经&emsp;习以为常<br><br>独自一人&emsp;循环、循环、循环往复的副歌<br><br>「那么就此BYE&emsp;BYE&emsp;BYE，各自回去吧」<br><br>我们无法相互理解，这种事，我早就心知肚明了<br><br>「一同前往那自甘堕落的奈落吧」<br><br>那么就此BYE&emsp;BYE&emsp;BYE，就此永别吧<br>我们无法相互理解，这种事，我早就心知肚明啊<br>尽是不断重复着那件事情的世界的彼方<br><br>「一同去寻找那插科打诨的爱吧」<br><br>逼近，逼近，逼近过来了，那身为世界的罗刹<br>在重复着、重复着那件事情的未来的彼方，来吧<br>用BYE&emsp;BYE&emsp;BYE来跳舞吧<br>沉湎于看似成熟的娱乐之中吧，来吧<br><br>那首曾经被我厌恶、被我一脚踹飞的梦幻曲<br>在这名实相符、万众瞩目的舞台之上，我终于抓住了那辉煌璀璨的答案！<br>那答案，正是独自一人的你的眼瞳！</p>
+      </div>
+    
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「被排挤的我」（あぶれる）：本义是鱼没被网住、漏网。引申为没被选中、落空、被排挤在外。</p>
+        <p>2. 「草草了事的结局」（呆気ない）：形容事情结束得太快、太简单，让人觉得不过瘾、扫兴、意犹未尽。</p>
+        <p>3. 「恼人的终点」（忌々しい）：令人恼怒、可恨、不吉利的。</p>
+        <p>4. 「明亮的地狱深渊」（明るい）：三重含义——光线明亮；性格开朗；前途光明。与"奈落"（地狱深渊）形成强烈反差。</p>
+        <p>5. 「奈落」：佛教中指地狱的最深处。引申为无法逃脱的深渊、绝境。</p>
+        <p>6. 「罗刹」：源自印度神话的恶鬼，食人血肉。在佛教中成为护法神，形象威严可怖。</p>
+        <p>7. 「谛观」：佛教用语，指看破一切、断除执念的豁达境界。</p>
+        <p>8. 「欺骗与搪塞」（誤魔化す）：欺骗、蒙混、敷衍、搪塞。用花言巧语或表面功夫来掩盖真相。</p>
+      </div>
+    </div>
+
+        <div class="song-section" id="song36">
+      <h2 class="song-title">2. imperfection</h2>
+      <p class="song-subtitle">インパーフェクション</p>
+      <div class="lyrics-block">
+        <p>「啪啪啪乓——」地出现的，是连我自己都不记得请求过的话语<br>若在那上面再叠加误认，想看的景色也就消失了吧？<br><br>在绝望的里侧<br>我想要期待某个面露微笑的人给出的答案<br>这种感觉，借你的话讲，就是「最差劲了！」<br><br>我要诉说这刻薄人世间的满腔积郁。<br><br>「患上“不完全症”并使之病入膏肓的我，想要传达的事情<br>一件也没有。你知道吗？」<br><br>爱意的逆再生<br>被丝毫不记得选择过的言语肆意摆布的思绪之所以会疼痛<br>那就像是世界终结的前兆<br><br>动摇着，回答着，堵塞着<br>没什么所谓，一场幻想<br>彻底相悖，失手滑落<br><br>尽是搞不懂的事，弄得快要一团糟！<br>如此可悲，但即便如此，也只能歌唱了吧？<br>醒来的时候，无论我要站在何处，无论我要做什么<br>都无所谓啊！<br><br>做一个连那些七零八落的歪理都能彻底击溃的梦<br>在那之上再叠加误认吧<br>试着描绘出想看到的景色吧<br><br>爱意的表里翻转<br>我想要期待某个面露微笑的人给出的答案，这种感觉<br>是世界终结、彼此告别的证明<br><br>尽是搞不懂的事情，弄得快要一团糟的<br>这件可悲之事，即便如此也只能歌唱了吧？<br>醒来的时候，无论我要站在何处，无论我要做什么<br>都无所谓了，所以<br><br>去寻找再寻找那没有一人能够抓住的例外吧<br>去强行撬开那根本不可能存在的理所当然的未来吧<br>醒来的时候，无论我要站在何处，无论我要做什么<br>真想笑着说一句「都无所谓啦」敷衍过去啊<br>总有一天啊！<br><br>「啪啪啪乓——」地出现的，是连我自己都不记得选择过的话语<br>在那上面再叠加误认吧<br>就让我们决定，令世界就此终结吧<br><br>在绝望的里侧。<br><br>那个面露微笑的某人给出的答案<br>我可以期待吗？</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song37">
+      <h2 class="song-title">3. N/A</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>真没出息啊&emsp;真没出息啊&emsp;你吐出这般话语<br>笑不出来啊&emsp;笑不出来啊&emsp;那道光芒<br>毫无用处啊&emsp;毫无用处啊&emsp;将这样的我照亮<br><br>事情总是无法如我所愿<br><br>画上〇<br>画上×<br><br>渐行渐远、渐行渐远，变成怎样都好、变成怎样都好，都随便你吧！<br>决一胜负的理由，根本不存在！<br><br>难以承受啊&emsp;难以承受啊&emsp;你所展现的一切<br>让人笑不出来&emsp;笑不出来啊&emsp;那些话语<br>却让我产生这样的心情——<br>没有什么&emsp;没有什么事情是无法歌唱的<br><br>此时此刻，就算我一直笑着<br>就算我一直想着，「毫无兴趣」<br>你开口说出：「呐，你其实是明白的吧」<br><br>我只想听到那一句话语啊<br><br>想来，真是经过了漫长的时间啊！<br>我大部分的色彩都已展示殆尽了啊<br>「我希望得到你的答案」一事，虽然从未消失<br>但就连那一点，我也喜欢。<br><br>不会消失吧<br>无论是喜悦，还是寂寞<br>虽然再也回不去了<br>没有意义，本就没有任何意义<br><br>纵使无法触碰<br>若是有那想看的、想看的色彩<br>那么<br>我已经不需要答案了啊<br><br>真没出息啊&emsp;真没出息啊&emsp;你所展现的<br>笑不出来啊&emsp;笑不出来啊&emsp;那眼神的色彩<br>对无聊透顶的&emsp;对无聊透顶的家伙投去的<br>那故作成熟的赤红眼瞳！<br><br>等一等<br>等一等啊<br>「呐，你其实是明白的吧」<br>又是那副仿佛洞悉一切的嘴脸<br>我又要<br>被迫回到起点，重新问候寒暄一番了吧？<br><br>想来，真是经过了漫长的时间啊！<br>连最不堪的心情，都已倾泻殆尽。<br>喜怒哀乐，这一切，都麻烦得要命<br>但，那也是我啊。<br><br>也会有迷茫的时候吧？<br>即使前行，即使前行<br>若前方还是什么都看不见<br>那就停下脚步，放声歌唱！<br><br>纵使无法触碰<br>因为有那想看的、想看的色彩<br>所以<br>我已经没什么想说的了<br><br>是不会消失的吧<br>无论是喜悦&emsp;还是寂寞！<br>虽然再也回不去了&emsp;但是<br>没有意义，本就没有任何意义<br><br>纵使无法触碰<br>因为有那想看的、想看的色彩<br>所以<br>我已经不需要答案了啊<br>呐<br>我已经不需要答案了啊&emsp;此时此刻</p>
+      </div>
+
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「N/A」：Not Applicable（不适用）/ Not Available（不可用）/ No Answer（没有答案）的缩写。表示"无数据""不适用""无法回答"。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song38">
+      <h2 class="song-title">4. 5 count hello</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>在逼仄阁楼里，我像个任人装扮的人偶！<br><br>是不是误会了什么？<br>是不是误会了什么？<br><br>「“好想传达给你”之类的话，我说不出口啊」我笑着<br><br>我根本没有什么品味可言<br>我根本没有什么品味可言<br><br>就像阴暗后巷里，一具肮脏的人偶<br>就任其彻底沉沦吧！<br>索性抛开一切&emsp;BYE&emsp;BYE<br><br>就连那立于舞台幕后、故作坚韧的可怜的我<br><br>你也要说我古怪吗？<br>你也要说我是个怪孩子吗？<br><br>在逼仄的阁楼里，我像个任人装扮的人偶<br><br>就任其彻底沉沦吧！<br>就任其彻底沉沦吧！<br><br>「“好想传达给你”之类的话，我说不出口啊」我笑着<br><br>是不是误会了什么？<br>是不是想错了什么？<br><br>卑鄙的&emsp;卑鄙的&emsp;身高攀比<br>用不该说的&emsp;不该说的&emsp;言语<br>去厌恶吧&emsp;厌恶吧&emsp;这世界<br>去厌恶吧&emsp;厌恶吧&emsp;这世界<br><br>去笑吧&emsp;去笑吧&emsp;已然溢出<br>直到那永不破晓的&emsp;永不破晓的黎明<br>去厌恶吧&emsp;厌恶吧&emsp;那个昨日<br>去厌恶吧&emsp;厌恶吧&emsp;厌恶吧<br><br>「HELLO&emsp;HELLO，多愁善感的女孩<br>要不要做点，不该做，不该做的事情？」<br><br>把讨厌的&emsp;讨厌的&emsp;讨厌的<br>这世界&emsp;这世界&emsp;一把火烧光<br><br>因为事到如今，已经<br>再没有退路可言了，对吧？<br><br>在逼仄阁楼里，我像个任人装扮的人偶<br><br>就任其彻底沉沦吧！<br>就任其彻底沉沦吧！<br><br>「“多想传达给你”之类的话，我说不出口啊」我笑着<br><br>变成怎样都好<br>索性抛开一切&emsp;<br><br>BYE&emsp;BYE<br><br>在阴暗后巷里，我窥见了种种不可见之物<br>我今天也要&emsp;因为一场误解&emsp;仓皇失措地逃回家<br><br>那立于舞台幕后、故作坚韧的可怜的我<br><br>你是不是将我想错了什么？<br>你是不是将我曲解了什么？<br><br>「HELLO，HELLO，多愁善感的女孩<br>要不要做点，不该做，不该做的事情？」<br><br>把讨厌的&emsp;讨厌的&emsp;讨厌的<br>这世界&emsp;这世界&emsp;一把火烧光<br><br>去笑吧&emsp;去笑吧&emsp;今天也一样<br>直到那永不破晓的&emsp;永不破晓的黎明<br>去厌恶&emsp;去厌恶&emsp;那昨日<br>去燃烧&emsp;去燃烧&emsp;这世界<br><br>卑鄙的&emsp;卑鄙的&emsp;身高攀比<br>用不该说的&emsp;不该说的&emsp;言语<br>去厌恶吧&emsp;厌恶吧&emsp;这世界<br>去厌恶吧&emsp;厌恶吧&emsp;这世界<br><br>因为啊，如今的我<br>已经再没有退路可言了，对吧？</p>
+      </div>
+   
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「那逆境中勇敢的女孩」（健気）：形容人（尤其是孩子、年轻人或弱者）在逆境中表现出的勇敢、坚强、努力的样子。带有钦佩和怜惜的双重情感，是一种悲剧美学式的赞美。</p>
+        <p>2. 「仓皇失措的我」（面食らう）：字面意思是"脸被打中了"。引申为因意外或冲击而仓皇失措、不知所措。</p>
+        <p>3. 「直觉错误、想法错误、会错意」（勘違って/思い違って/捉え違って）：三级递进——直觉上的错误判断；想法上的错误；会错意、理解错误。</p>
+        <p>4. 「卑鄙的身高攀比」（ずるいずるい背比べ）：「ずるい」意为狡猾、卑鄙、不公平。「背比べ」意为比身高。引申为在各种维度上进行不公平的比较和竞争。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song39">
+      <h2 class="song-title">5. 蛹・电影院</h2>
+      <p class="song-subtitle">ピューパ・シネマ</p>
+      <div class="lyrics-block">
+        <p>轻快地旋转着，裙袂飘扬<br>像蛹一样笑着的你<br>把收集而来的今日拍成电影，在我的房间里启封上映吧<br><br>「世上才没有什么“绝对”呢。」<br>你说道<br>「是不是你的错觉啊。」<br>我说道<br>「那绝无可能。」<br>你说道<br><br>我总感觉，有哪里不对劲<br><br>即刻就渴求答案的你，今天也<br>在一张漂亮得过分的纸片上<br>郑重写下收集而来的爱恋，又将它撕个粉碎，装出一副天下太平的样子！<br><br>「晓得啦，Baby。」<br>你说道<br>「我可没有半点兴趣。」<br>我说道<br>「那绝无可能。」<br>你说道<br><br>果然，我还是感觉不对劲，虽说如此<br><br>说什么「不加修饰、永不改变」(做不到——)<br>无聊透顶！<br>不如就安安稳稳地升天吧？<br>说什么「我不懂、我不明白」(骗人的——)<br><br>又在假装不知道了！<br><br>世界也真是任性得可以，擅自将你的地球旋转<br>可我，只想听听你那得意洋洋地「嘎啦嘎啦」怪笑的，悦耳的声音啊<br><br>「像你这种家伙，到了明天<br>我绝对会忘得一干二净」&emsp;你吐出这样的话语<br><br>「绝对」什么的，才不存在<br>恐怕，大概，一定，至今为止，不存在<br><br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br>Pa-ri-ra-ppa&emsp;Shu-ri-ru-ri-ra<br><br>毫无要飞翔的迹象，在地上痛苦扭动，翻滚，挣扎<br>借助前时代的思想被释放出来的存在的理由（Raison d'être），我将其肆意播撒<br>焦灼着，去吧<br><br>世界也真是任性得可以，擅自将你与地球一并旋转<br>可我，只想听听你那得意洋洋地「嘎啦嘎啦」怪笑的，悦耳的声音啊<br><br>迟早有一天，世界会恶作剧般地，将你的地球终结<br>可我，只想听听你那面露憎恶地「咔哈哈」大笑的，悦耳的声音啊</p>
+     
+    </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「蛹」（Pupa）：昆虫发育的中间阶段，介于幼虫和成虫之间。象征着——过渡状态、未完成；超越失败的可能性；内部正在发生剧烈变化。</p>
+        <p>2. 「痛苦翻滚挣扎」（のたうつ）：因痛苦或苦闷而在地上翻滚、挣扎。强调身体的扭曲和痛苦的剧烈程度。</p>
+        <p>3. 「存在的理由」（Raison d'être）：法语，意为"存在的理由"。指一个人或事物存在的根本目的、意义或价值。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song40">
+      <h2 class="song-title">6. 癖</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>那深深将我刺伤的话语，其带来的痛楚，竟成了一种癖好<br>原来，是这么一回事啊<br><br>永不被满足，我竭力挤出的<br>声音与色彩，再一次<br>模糊不清<br><br>尽是些无法说出口的事<br>我渴望知晓那颗心中的色彩<br>在持续着佯装未曾察觉的清晨里<br>也像是为了确认一般，<br><br>「藏好了吗？可以了吗？」<br><br>连接起来<br>连接起来<br>知晓了光<br><br>不断怀疑<br>犯下过错<br>知晓了痛<br><br>奋力传达<br>力竭倒地<br>知晓了独自一人<br><br>今天也，若是就此终结<br><br>那深深将我刺伤的话语，请将那份痛楚再度赐予我吧<br>虽然我这么说着<br><br>永不被满足的我的心的声音与色彩，又一次<br><br>扩展开来<br>连成一片<br>知晓了言语<br><br>奋力传达<br>犯下过错<br>知晓了独自一人<br><br>连接起来<br>连接起来<br>知晓了光<br><br>今天也，若是就此终结</p>
+      </div>
+     
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「无法说出口」（声にできない）：有两层含义——客观限制（无法发出声音）；内心感受（难以用言语表达）。</p>
+        <p>2. 「「藏好了吗？」「还没哟」」（もういいかい？もういいかい？）：日本捉迷藏游戏中的经典对话。找人者问"藏好了吗？"，躲藏者答"还没哟"。ROLLING GIRL中也出现了类似表达。</p>
+        <p>3. 「力竭倒地」（くたばる）：本义是因极度疲劳而倒下。也可用作侮辱性说法，意为"死""完蛋"。GHOST ROLL中也使用了这个词。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song41">
+      <h2 class="song-title">7. NONSENSE</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>对着被切割下的三维立体<br>回响的话语&emsp;感觉如何？<br>「简直像飞翔的魔法呢」&emsp;是谁说的来着？<br><br>如此低语着<br><br>用斑斓的声音啼鸣<br>将世界诅咒得体无完肤<br>立于绝对的正相反侧<br>以感伤主义全副武装<br><br>历经百战锤炼才拼凑而成<br>贴上完美的标签<br>俯瞰着摇摇欲坠的世界<br>沉浸在喜悦中的，某名受害者<br><br>又土气、又粗鄙、又派不上用场，而且啊<br>申诉也根本无从传达<br>就连那微末的希望&emsp;也终将哭着&emsp;哭着&emsp;将其撒手<br><br>承蒙款待<br><br>早已心知肚明的谎言与两难困境<br>将它扭曲恶化，再搅成一团给我看看<br>盛开的有限与无限<br>亦如此近乎讥讽地、绝美地哭泣着<br><br>哭泣着&emsp;哭泣着&emsp;哭泣着<br><br>挥舞起脑子搭错线的品味，积攒已久的爱，索性！<br>将其囫囵吞食殆尽，像往常一样玩耍嬉戏吧<br>潸潸泪下又桀桀大笑，循环往复、循环往复的今日，也一定！<br>故作姿态，自以为曾肆意活过一场，我可是在将你的存在一笑置之啊<br><br>理所当然地垂下头来&emsp;人们<br>交杯换盏，共饮了三途川的水<br>搅浑它&emsp;淤塞它&emsp;回过神来<br>已然是无法挽回的今日<br><br>用那剥离而得的全知全能，攥住被我搅乱发狂的你<br>即便如此，也找不到答案。<br><br>你究竟把它藏在了哪里？<br>不存在绝对的对手<br>亦不存在丝毫的迷惘<br>我的心砰砰跳着，眺望着那副身姿，您可真惨啊，请您节哀顺变<br><br>将堂而皇之地通行的道理碾个粉碎<br>为这扭曲乖僻的思想，来，干杯<br>喜怒哀乐&emsp;这整副身体&emsp;这整个灵魂<br>我都忘了啊，早已忘得一干二净<br><br>忘记了&emsp;忘记了&emsp;忘记了<br><br>任谁都会被强行塞入的垃圾箱一般的今日，也一定！<br>若是揉作一团，随手丢弃，那天真无邪的表情也会“啪”地一声，化作泡影<br>凭着惊险上垒与漂亮一击，被拖拽着团团打转的今日，也一定！<br>故作感恩戴德、伪装一副幸福模样，就算正吞咽着惩罚的苦果<br>也还要死撑着大人的派头！<br><br>榨干这搭错了线的脑髓，这积攒已久的爱，索性！<br>将其囫囵吞食殆尽，像往常一样玩耍嬉戏吧<br>潸潸泪下又桀桀大笑，循环往复、循环往复的今日，也一定！<br>故作感恩戴德，伪装一副幸福模样<br>就算正吞咽着惩罚的苦果，也还要死撑着大人的派头！<br><br>挥舞起「绝不会错」的品味，那积攒汇集而成的爱，也一定！<br>若是揉作一团，随手丢弃，你大概会天真无邪地将我嘲笑吧<br>潸潸泪下又桀桀大笑，循环往复的今日，也一定<br>故作姿态，自以为曾肆意活过一场，我可是在将你的存在一笑置之啊（大概吧？）</p>
+      
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「NONSENSE/sense」：sense有多重含义——感官、感知；意义、含义；品味、判断力。NONSENSE则是"无意义的、荒谬的、胡说八道的"。</p>
+        <p>2. 「三途川」：日本佛教传说中分隔此世与彼世的河流，相当于中国的"忘川"。有三处渡口——善人走的"浅濑"、恶人走的"深濑"、普通人走的"中渡"。渡河需要六文钱（渡河费），河边开满彼岸花。</p>
+        <p>3. 「「节哀顺变」」（ご愁傷様）：吊唁时对死者家属说的安慰话。也可作反语，带有幸灾乐祸的意味。</p>
+        <p>4. 「脑子搭错线」（クルクルパー）：「クルクル」意为团团转，「パー」意为脑子空空、精神不正常。整体形容脑子出问题、神志不清。</p>
+        <p>5. 「泡影、白费、脑子空空」（パア）：「パア」有多重含义——泡影、化为乌有；白费、徒劳；脑子空空、精神不正常。</p>
+      </div>
+    </div>
+
+      <div class="song-section" id="song42">
+      <h2 class="song-title">8. 摆渡人</h2>
+      <p class="song-subtitle">ボートマン</p>
+      <div class="lyrics-block">
+        <p>循着三三七的应援节拍<br>一蹦一跳的，是我的影子吗？<br>负荷着先天性的缺陷<br>即便如此，我也仍在呼吸<br><br>这世界，怪诞又磨人<br>我得意忘形地让它旋转<br>反正一切绝对都已失常<br>不如忘却自我，狂舞一场吧？<br><br>化作旋转体，就在此刻，没错<br>看样子，今天这关又要跨过去了？<br>那少年，方才鲁莽地背叛<br>却依旧转瞬之间沉溺其中<br><br>而我，多管闲事地笑着<br>净是做出一副不感兴趣的样子<br>反正一切绝对都已走向终局<br>不如暂且躺下，敷衍过去吧？<br><br>「所谓“言之轻易行之难”<br>恰似曼珠沙华，其色一体两面<br>爱与憎，待到天明，亦将表里翻转<br>终归是，仅此一夜的梦幻」<br><br>那一定是因为，当我猛然回过神来<br>才发现我只是在等待着你，日复一日，无时或已<br><br>我只是想方设法地，想要把你那张<br>不会因等闲之事动容的脸，搅得一团混乱<br><br>请赐予我一个“我”吧，能够彻底剪断<br>那死死缠绕的心之丝线<br>我那暧昧划定的轮廓，<br>轻易便能被压垮扭曲，亦将那眼瞳的颜色改变<br><br>在熬煮至极限的心之底<br>在积满淤塞的情感泥沼中<br>来吧，试着强行拧进去试试看吧<br>将那些五彩斑斓的、名为“生之意义”的东西！<br><br>我等待着，却又拒斥着！<br>看来今天又是一场款待！<br>保证有效的陈词滥调的宣传车<br>每个人各自沉没的无个性<br><br>明明一切绝对都已走向终局<br>我却还在得意忘形地高谈阔论<br>反正一切绝对都已走向终局<br>不如失去自我，一同欢笑吧？<br><br>「想要喜欢却喜欢不起来，唯以哭泣告终的今日<br>正如，不久，骄傲者亦将失其欢颜<br>色彩、声音与芬芳，尽皆悉数剥离<br>剩下的不过，是仅此一夜的，那件事情」<br><br>干脆化作愚人，再高估自己一次<br>就站在那里，将羞耻心尽数抛弃<br>我只想不顾一切地，把你那张<br>纹丝不动、宛如假面的脸<br>彻底搅个一团混乱<br><br>请赐予我，剪开那<br>死死缠绕的心之丝线时，所发出的决裂之声<br>就连你那被定义为至高的轮廓<br>我也会轻易将其摧毁，让你赤裸的本相暴露无遗<br><br>在已被逼入绝境的心之底里<br>在已被探索殆尽的、名为“爱意”的泥沼中<br>来吧，何不说到彻底生厌？<br>将那些五彩斑斓的、名为“悲哀”的东西！<br><br>「请问，您要去向何方？」<br>「去往那间，能成我们二人独处的房间。」<br>「请问，与您同行者几位？」<br>「我不是说过了吗？只有我一个。」<br><br>那么，就由我来为您引路<br>如果可以，请您凝神细看，来吧：<br>爱与憎，不过是一体两面<br>那仅此一夜的虚幻梦境，其续篇<br>请看——<br><br>那双如此美丽的、如此美丽的眼眸哭得红肿<br>此刻也、此刻也，想必仍被泪水浸透<br>望不见，望不见前路之色，却仍向其追寻而去<br>无论是你，还是我</p>
+      </div>
+   
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「三三七拍子的应援」（三三七拍子）：日本传统应援节拍，节奏为"三拍+三拍+七拍"。是集体性、仪式性的符号。</p>
+        <p>2. 「怪诞又磨人的今日」（けったいでじれったい）：「けったい」意为奇怪、怪诞；「じれったい」意为令人着急、磨人。</p>
+        <p>3. 「铁板的陈词滥调」（鉄板）：本义是铁板。引申为"保证有效""万无一失"。进一步引申为"陈词滥调""老套"。</p>
+        <p>4. 「想喜欢却喜欢不起来」（好くに好けず）：古典日语表达，意为"想喜欢却喜欢不起来"。</p>
+        <p>5. 「骄者亦不能久笑」（驕れる人も久しく笑えず）：化用《平家物语》开卷名句"驕れる人も久しからず"（骄者不能久）。</p>
+        <p>6. 「摆渡人」：跨文化的死亡意象——希腊神话中的卡戎（Charon）；古埃及的摆渡神；日本三途川的船夫。</p>
+        <p>7. 「曼珠沙华」：佛教中的天界之花。也是彼岸花（红花石蒜）的别名，象征死亡、分离。花叶永不相见，象征永恒的错过。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song43">
+      <h2 class="song-title">9. 为何为何</h2>
+      <p class="song-subtitle">なぜなぜ</p>
+      <div class="lyrics-block">
+        <p>「正确答案这种东西，根本就不存在」<br><br>我是明白的啊<br>这是何等绝妙的世界啊&emsp;世界啊？<br>清晰可辨的，唯有正在歌唱的你<br>和我这无处可依的声音<br><br>到底是为什么啊<br>到底是为什么啊<br><br>「我已经，不想再一直注视你的背影了。」<br><br>面带愁容的你，再度浮现！<br><br>在境界线上，我动弹不得<br>这是何等绝妙的舞台啊&emsp;舞台啊<br><br>清晰可辨的，唯有正在歌唱的你的<br>那模棱两可的浅淡旋律<br><br>到底是为什么啊<br>到底是为什么啊<br><br>「我可没有回头看的余裕。」<br><br>兴高采烈的你，再度浮现<br><br>为何为何&emsp;不可以呢<br>为何为何&emsp;不需要呢<br>空转的感情<br>在骨碌骨碌地旋转着&emsp;哭泣着啊<br><br>只是只是，漫无目的地<br>踉踉跄跄地，在这世界中走下去吧<br>公之于众的感情<br>桀桀地&emsp;尖声怪笑着<br><br>为何为何&emsp;不去呢<br>为何为何&emsp;不需要呢<br>向着迸裂飞散的感情<br>乱七八糟地&emsp;献上我的爱<br><br>为何为何&emsp;不可以呢<br>为何为何&emsp;不可以呢<br>这无法忘却的、循环往复的今日<br>该称作什么才好？<br><br>正确答案这种东西，根本就不存在<br>我是明白的啊<br><br>这是何等绝妙的世界啊？世界啊？<br><br>清晰可辨的，唯有正在歌唱的你<br>和我这无处可依的声音<br><br>到底是为什么啊<br>到底是为什么啊<br><br>「我已经，不想再一直注视你的背影了。」<br><br>面带愁容的你，再度浮现！<br><br>为何为何&emsp;不可以呢<br>为何为何&emsp;不需要呢<br>空转的感情<br>在骨碌骨碌地旋转着&emsp;哭泣着啊<br><br>不可思议地&emsp;漫无目的地<br>只是只是&emsp;在这世界中走下去<br>用公之于众的感情<br>桀桀地&emsp;尖声怪笑着<br><br>为何为何&emsp;不需要呢<br>为何为何&emsp;不需要呢<br>向着迸裂飞散的感情<br>乱七八糟地&emsp;献上我的爱<br><br>为何为何&emsp;不可以呢<br>为何为何&emsp;不可以呢<br>这无法忘却的、循环往复的今日<br>该称作什么才好？<br><br>到底是为什么啊<br>到底是为什么啊<br>我已经，不想再一直注视你的背影了。<br><br>答案这种东西，根本就不存在<br>答案这种东西，根本就不存在<br>这是何等绝妙的世界啊<br><br>只是&emsp;只是<br><br>「到底是为什么啊&emsp;到底是为什么啊。」<br><br>我这无处可依的声音<br><br>答案这种东西，根本就不存在<br>答案这种东西，根本就不存在<br>我是明白的啊<br><br>——请你，察觉到我啊。</p>
+      </div>
+    
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「模棱两可、不上不下」（どっちつかず）：哪边都不靠、模棱两可、犹豫不决、不上不下。形容处于中间状态，无法做出决定或归属。</p>
+        <p>2. 「けたけたけた」：拟声词，形容高亢、刺耳、突兀的笑声。可表示——高亢刺耳的笑；突兀怪异的笑；嘲弄、幸灾乐祸的笑。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song44">
+      <h2 class="song-title">10. 我楽多遊び / 垃圾废品的游戏</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>收集着那堆破烂玩意，究竟是想达成什么目标呢<br>被骂到狗血淋头的你，哭肿了双眼，缄口不语<br><br>当这睡意惺忪的今日走向终结，我会将什么握在手中呢<br>制作出一份耍宝的爱，若是凝神细看，喏——<br><br>熠熠闪光的那个东西啊<br>竟格格作响，放肆地发出诡异的笑声<br>熠熠闪光的那个东西啊<br>竟格格作响，放肆地发出独自一人的笑声<br><br>不知为何，我已经累了啊<br>虽然又会在无人察觉间消失无踪<br>我总觉得，已经累了啊，如今，对这全部、全部<br><br>彻底搞得支离破碎吧，无所谓了<br>若是喋喋不休地说着，在那一带，又能看见什么？<br><br>收集着那堆破烂玩意，到底是打算击败什么呢<br>被骂到狗血淋头的你，我想看看，你紧抱在胸中的那个东西<br><br>当这陈旧褪色的今日走向终结，我又将在何处生活呢<br>将那份耍宝的爱恶化成疾，伸出那只手，将其碾碎<br><br>熠熠闪光的那个东西啊<br>竟格格作响，放肆地发出诡异的笑声<br>熠熠闪光的那个东西啊<br>竟格格作响，放肆地发出独自一人的笑声<br><br>不知为何，已经无法将其停下了<br>因为又会在无人察觉间消失无踪<br>将收集而来的今日，给我尽数呕出！<br><br>将全部、全部<br>都给我哗啦哗啦地吐出来，无所谓了。<br>在那一带，给我零零散散地撒得到处都是！<br>够了<br>彻底搞得支离破碎吧，因为那样就行了<br>给我搞个彻底支离破碎吧，又不是什么难事！<br><br>收集着那堆破烂玩意，究竟是想达成什么目标呢<br>将那份耍宝的爱恶化成疾，你且凝神细看，给我看清楚啊</p>
+      </div>
+      
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「我楽多」（がらくた）：「がらくた」本义是废品、破烂、无用之物。wowaka用了"我楽多"这个当て字（借字），字面意思是"我的快乐很多"——一种自嘲式的文字游戏：我的快乐建立在废品之上。</p>
+        <p>2. 「耍宝逗笑的今日」（おどける）：故作滑稽、耍宝、逗笑、装疯卖傻。为了逗别人笑而做出夸张的表情或动作。</p>
+        <p>3. 「哗啦哗啦大量涌出」（ドバドバ）：拟声词，形容液体或物体大量、连续地涌出。强调数量多、势头猛。</p>
+      </div>
+    </div>
+
+      <div class="song-section" id="song45">
+      <h2 class="song-title">11. GHOST ROLL</h2>
+      <p class="song-subtitle">ゴーストロール</p>
+      <div class="lyrics-block">
+        <p>酩酊&emsp;低垂着脸<br>炎上&emsp;顽强的幻想<br>停滞&emsp;被揭示的极限&emsp;吱吱嘎嘎吱吱嘎嘎地&emsp;MY&emsp;MY<br><br>倦怠&emsp;梦魇缠身般徘徊<br>在这偏见横行的世间<br>被狠狠地催促着仓皇退场&emsp;背对背地说句拜拜<br><br>零分&emsp;这荒腔走板的剧本<br>在无法预见的未来<br>真身败露，沦为傀儡<br>回、回、回、回、回、回、回退<br><br>欢宴&emsp;凭着尔等凡人看不见的鼓动<br>界限已然解开<br>满分&emsp;这受之有愧的光荣&emsp;还望您能理解万岁<br><br>闭庭&emsp;若我死了就是冤罪<br>战争&emsp;短暂的喘息休憩<br>回旋&emsp;被击飞后旋转&emsp;骨碌骨碌骨碌地打着转&emsp;随手丢弃<br><br>反对！&emsp;如此高唱着行进<br>礼赞&emsp;被投向的幻想<br>被狠狠地催促着仓皇退场&emsp;得意忘形地今天也说句拜拜<br><br>谢绝会面&emsp;你的心脏<br>宣战布告&emsp;以此为契机的未来的<br>到来&emsp;被实现的感动&emsp;今天我想满满足足彻彻底底向其中沉溺<br><br>酩酊&emsp;低垂着脸<br>炎上&emsp;顽强的幻想<br>敬启&emsp;致昨日为止的感动&emsp;您可还心情舒畅<br><br>净是些毫无办法的事<br>终生、难以如愿的逃避之行<br>呐&emsp;能不能说给我听听啊<br>所谓的、世界旋转的道理<br><br>独自一人逃出去吧<br>舔舐这浑身伤口吧<br>尽情胡闹吧&emsp;胡闹吧&emsp;天真无邪的女孩<br><br>「那东西不是到处都有吗？」<br>「看来是找不到了啊，这颗心，干涸得如此可悲」<br><br>找不到啊&emsp;找不到啊<br>步履蹒跚地&emsp;我该去向何方<br>没有言语&emsp;亦无形状&emsp;但也没法就此放弃啊<br><br>道边&emsp;是不得超生的亡灵<br>残骸&emsp;变得支离破碎<br>正确答案&emsp;已经不剩了&emsp;惊险万分地截取下来<br><br>因拖延而加倍的感情<br>对这轻易终结的世界<br>就算拼命咒骂也含混不清&emsp;只留背对背地说句拜拜<br><br>酩酊&emsp;被梦魇纠缠着徘徊<br>炎上&emsp;顽强地旁观<br>明快&emsp;真相大白的感动&emsp;配得全人类的鼓掌喝彩<br><br>满分&emsp;这乱七八糟的展开<br>永世&emsp;若我死了就是极限<br>大惊失色&emsp;被催促着仓皇退场&emsp;能否请您予我指名<br><br>早已令人厌烦的正义也好<br>用后悔奏响的欢喜也罢<br>呐&emsp;通通揭穿就好<br>世界在改变&emsp;今天依旧在改变<br><br>至少带我出去吧<br>让我去往那对岸<br>疯狂挥舞的&emsp;挥舞的手&emsp;不要放开啊<br><br>「对这些困难的事，我已经很习惯了」<br>逞着强&emsp;我要独自一人&emsp;再度沉入梦乡<br><br>在那里&emsp;逃出去<br>在梦里&emsp;醒过来<br>起舞吧&emsp;旋转吧&emsp;天真无邪的女孩<br><br>「那东西不是到处都有吗？」<br>「虽说找不到吧，但这颗心，现在似乎正不可思议地感到高兴」<br><br>找不到啊&emsp;找不到啊<br>步履蹒跚地&emsp;我该去向何方<br>没有言语&emsp;亦无形状<br>让我们背对背地道句永别</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song46">
+      <h2 class="song-title">12. senseless wonder</h2>
+      <p class="song-subtitle">センスレス・ワンダー</p>
+      <div class="lyrics-block">
+        <p>我是个不合常规的存在<br>向着内侧绽放的自尊心<br>我快要哭了，所以让我们背向未来前进吧？<br><br>来吧<br>无邪的话语，怯懦地为世界添上色彩<br>一笔笔勾画着，纵身跃入那一侧的理由<br><br>「没察觉到，真令人着急」<br>「那里，一定什么都没有」<br>「“想兴高采烈，想被人喜欢”，如果当时说了那样的话<br>我一定会哭出来的，对吧？」<br><br>啊啊<br>「传达不到啊，传达不到呢」<br>笑不出来啊，笑不出来呢<br>竟妄想看得入迷，看得入迷<br><br>（无法拆散啊，无法揭穿呢）<br><br>将那双手尽皆占用<br>你所认识的，是哪个世界？<br>高喊着「唱吧，舞吧」<br>我想要去往你的那个世界啊<br><br>你想怎么做？呐，你想怎么做？<br><br>「就用那死死攀附不放般的声音哭吧，呐」<br>「没办法啊，毫无办法」<br><br>那样的我，就请你，讨厌吧！&emsp;<br><br>已经，连呼吸都上气不接下气<br>这是个近似于放弃的故事<br><br>「呐，因为我会变得最讨厌你的<br>我们各走各的路，好吗？」<br><br>啊啊，我完全，没有兴趣<br>在那里，散落遍地的，是后悔<br>你那双迟钝的眼睛<br>来，请献给我吧<br><br>「那可爱的举止与语调<br>那天真地跃动的脚跟<br>还有那无数次重复的荒诞，这一切<br>一定，都是我吧？」<br><br>是啊<br>「真是没出息啊，我真是太没出息了」<br>说不出口啊，什么都说不出口<br>无法拆散啊，无法揭穿呢<br><br>（已经察觉到了）<br><br>将里・表都暴露出来<br>我只想问问只属于我的未来<br>「你想怎么做？呐，你想怎么做？」<br>简直像一场没有终点的连环谜语<br><br>「呐，说说今天发生的事吧」<br>我想要了解你的那个世界啊<br>将交握的双手松开<br>你最终选择的，是哪一个世界？<br><br>「那得意忘形的话语之声也好<br>那渴望被爱而挤出的笑容也罢<br>还有那周而复始地<br>被径直无视的身影，也一定都是我吧？」<br><br>是啊<br><br>「传达不到啊，传达不到呢」<br>笑不出来啊，笑不出来呢<br>我多想看得入迷，看得入迷！<br><br>反正<br><br>（无法去爱&emsp;无法去爱）<br><br>将彼此的双手牵起<br>你最终选择的，是哪一个世界？<br>高喊着「唱吧，舞吧」<br>「我想要去往你的那个世界啊」<br><br>你想这么做吗？呐，你想怎么做？<br>「就用那癫狂般的声音哭泣吧，呐」<br>你想那么做吗？啊啊，你想那么做？<br><br>我也正在考虑着<br>完全相同的事情啊！<br><br>你想怎么做？呐，你想怎么做？<br>你想那么做吗？啊啊，你想那么做？<br><br>「呐，说说今天发生的事吧」<br>我想要了解，在你的那个世界的我啊<br>将交握的双手松开<br>你最终选择的，是哪一个我？</p>
+      </div>
+      
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「泄露秘密的我」（バラす）：「ばらす」有两个核心含义——泄露秘密、揭穿；拆开、拆散成零散的部分。</p>
+        <p>2. 「死死攀附的你」（縋る）：紧紧抓住、死死攀附；依赖、求助、依靠。强调 desperate 的依附感。</p>
+        <p>3. 「不合逻辑的世界/存在主义的荒诞」（不条理）：不合逻辑、不合道理、荒谬。对应加缪的"l'absurde"（荒诞）——存在主义哲学的核心概念，指人类对意义的渴望与世界的无意义之间的冲突。</p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 wowakashinsei.art · 个人翻译作品，仅供同好交流</p>
+    </footer>
+  </div>
+
+  <!-- ==================== JavaScript 自动目录生成与高亮 ==================== -->
+  <script>
+    (function() {
+      const tocList = document.getElementById('tocList');
+      const songSections = document.querySelectorAll('.song-section');
+      const albumDividers = document.querySelectorAll('.album-divider');
+      const tocLinks = [];
+
+      // 1. 遍历所有专辑分隔和歌曲章节，生成目录
+      albumDividers.forEach((divider) => {
+        const albumTitle = divider.querySelector('h2');
+        if (!albumTitle) return;
+        const albumId = divider.getAttribute('id');
+
+        const albumItem = document.createElement('li');
+        albumItem.className = 'toc-album';
+        albumItem.textContent = albumTitle.textContent.trim();
+        tocList.appendChild(albumItem);
+
+        // 找到这个专辑后面的所有歌曲，直到下一个专辑分隔
+        let nextSibling = divider.nextElementSibling;
+        while (nextSibling && nextSibling.classList.contains('song-section')) {
+          const titleElement = nextSibling.querySelector('.song-title');
+          if (titleElement) {
+            const titleText = titleElement.textContent.trim();
+            const sectionId = nextSibling.getAttribute('id');
+
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = '#' + sectionId;
+            link.textContent = titleText;
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+
+            listItem.appendChild(link);
+            tocList.appendChild(listItem);
+            tocLinks.push({ link, sectionId });
+          }
+          nextSibling = nextSibling.nextElementSibling;
+        }
+      });
+
+      // 2. 滚动时高亮当前章节对应的目录项
+      function highlightTocOnScroll() {
+        let currentSectionId = '';
+        songSections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 180) {
+            currentSectionId = section.getAttribute('id');
+          }
+        });
+
+        tocLinks.forEach(item => {
+          item.link.classList.remove('toc-active');
+          if (item.sectionId === currentSectionId) {
+            item.link.classList.add('toc-active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', highlightTocOnScroll);
+      highlightTocOnScroll(); // 初始调用
+
+      // 3. 移动端目录显示/隐藏
+      const sidebarToc = document.getElementById('sidebarToc');
+      const tocToggleBtn = document.getElementById('tocToggleBtn');
+
+      if (tocToggleBtn && sidebarToc) {
+        tocToggleBtn.addEventListener('click', function() {
+          sidebarToc.classList.toggle('visible');
+        });
+
+        // 点击目录内链接后自动收起（移动端）
+        tocList.addEventListener('click', function(e) {
+          if (e.target.tagName === 'A' && window.innerWidth <= 1024) {
+            sidebarToc.classList.remove('visible');
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

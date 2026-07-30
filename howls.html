@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HOWLS · 歌词中译本</title>
+  <style>
+    /* ========== 全局重置与文学配色 ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #faf8f5; color: #3b3a36;
+      font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", "Georgia", "华文中宋", "宋体", serif;
+      line-height: 1.8; font-size: 18px; transition: all 0.2s ease;
+    }
+    .main-container {
+      max-width: 780px; margin: 0 auto; padding: 60px 30px 120px 30px;
+    }
+    .site-header {
+      text-align: center; margin-bottom: 70px; border-bottom: 1px solid #e0dcd3;
+      padding-bottom: 30px;
+    }
+    .site-header h1 { font-size: 2.4rem; font-weight: 400; letter-spacing: 4px; margin-bottom: 10px; color: #4a463b; }
+    .site-header p { font-size: 1rem; color: #8b8678; font-style: italic; }
+    .back-link {
+      display: inline-block; margin-top: 25px; text-decoration: none; color: #8b8678;
+      padding: 8px 18px; border: 1px solid #d4cec2; border-radius: 25px; font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .back-link:hover { background-color: #4a463b; color: #faf8f5; border-color: #4a463b; }
+
+    /* ========== 侧边目录栏 (桌面固定) ========== */
+    .sidebar-toc {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      max-height: 75vh;
+      width: 240px;
+      background-color: rgba(250, 248, 245, 0.88);
+      backdrop-filter: blur(6px);
+      border: 1px solid #e0dcd3;
+      border-radius: 8px;
+      padding: 20px 15px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .sidebar-toc::-webkit-scrollbar { width: 4px; }
+    .sidebar-toc::-webkit-scrollbar-thumb { background: #d4cec2; border-radius: 4px; }
+    .sidebar-toc::-webkit-scrollbar-track { background: transparent; }
+
+    .sidebar-toc h3 {
+      font-size: 0.9rem; letter-spacing: 2px; color: #8b8678;
+      margin-bottom: 12px; text-align: center; font-weight: 400;
+      border-bottom: 1px solid #e0dcd3; padding-bottom: 8px;
+    }
+    .toc-back-btn {
+      display: block;
+      text-decoration: none;
+      color: #8b8678;
+      font-size: 0.82rem;
+      padding: 5px 8px;
+      margin-top: 16px;
+      border: 1px solid #d4cec2;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.3);
+    }
+    .toc-back-btn:hover {
+      background-color: #4a463b;
+      color: #faf8f5;
+      border-color: #4a463b;
+    }
+    .sidebar-toc ul { list-style: none; }
+    .sidebar-toc li { margin-bottom: 4px; }
+    .sidebar-toc a {
+      text-decoration: none; color: #6b665b; font-size: 0.82rem;
+      display: block; padding: 3px 8px; border-radius: 4px;
+      transition: all 0.2s; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .sidebar-toc a:hover { background-color: #e8e4da; color: #3b3a36; }
+    .sidebar-toc a.toc-active {
+      background-color: #4a463b; color: #faf8f5; font-weight: 500;
+    }
+    .sidebar-toc .toc-album {
+      font-size: 0.78rem; color: #a09b8f; padding: 8px 8px 4px 8px;
+      letter-spacing: 1px; border-bottom: 1px dashed #e0dcd3;
+      margin-top: 8px; font-weight: 500; cursor: default;
+    }
+    .sidebar-toc .toc-album:first-of-type { margin-top: 0; }
+
+    /* ========== 移动端适配 ========== */
+    @media (max-width: 1024px) {
+      .sidebar-toc {
+        position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
+        width: 220px; max-height: 60vh;
+        background-color: rgba(250, 248, 245, 0.96);
+        backdrop-filter: blur(8px); border: 1px solid #e0dcd3;
+        border-radius: 10px; padding: 16px 12px;
+        display: none; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+      }
+      .sidebar-toc.visible { display: block; }
+      .main-container { padding: 30px 20px 80px 20px; }
+    }
+
+    /* ========== 移动端浮动目录按钮 ========== */
+    .toc-toggle-btn {
+      display: none;
+      position: fixed;
+      left: 20px;
+      bottom: 40px;
+      background: #4a463b;
+      color: #faf8f5;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      font-size: 1.5rem;
+      z-index: 200;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toc-toggle-btn:hover { background: #5b5547; }
+    .toc-toggle-btn:active { transform: scale(0.94); }
+    @media (max-width: 1024px) { .toc-toggle-btn { display: flex; } }
+
+    /* ========== 歌词章节样式 ========== */
+    .song-section { margin-bottom: 80px; scroll-margin-top: 50px; }
+    .song-title {
+      font-size: 1.8rem; font-weight: 400; margin-bottom: 10px; color: #4a463b;
+      border-left: 4px solid #c2b8a7; padding-left: 18px;
+    }
+    .song-subtitle { font-size: 0.9rem; color: #8b8678; margin-bottom: 25px; padding-left: 22px; }
+    .lyrics-block { margin-bottom: 25px; }
+    .lyrics-block p { margin-bottom: 12px; }
+    .annotation-block {
+      background-color: #f3efe8; border-left: 3px solid #c2b8a7; padding: 15px 20px;
+      margin: 25px 0 35px 0; font-size: 0.9rem; color: #5b564a; border-radius: 0 6px 6px 0;
+    }
+    .annotation-block h4 { font-weight: 500; margin-bottom: 8px; color: #4a463b; }
+    .annotation-block p { margin-bottom: 8px; line-height: 1.7; }
+
+    /* ========== 专辑分隔标题 ========== */
+    .album-divider {
+      text-align: center; margin: 100px 0 60px 0; padding: 30px 0;
+      border-top: 1px solid #e0dcd3; border-bottom: 1px solid #e0dcd3;
+    }
+    .album-divider h2 { font-size: 1.5rem; font-weight: 400; color: #6b665b; letter-spacing: 3px; margin-bottom: 8px; }
+    .album-divider p { font-size: 0.85rem; color: #a09b8f; font-style: italic; }
+
+    .site-footer {
+      text-align: center; margin-top: 80px; padding-top: 25px; border-top: 1px solid #e0dcd3;
+      font-size: 0.85rem; color: #8b8678;
+    }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body>
+
+  <!-- 移动端浮动目录按钮 -->
+  <button class="toc-toggle-btn" id="tocToggleBtn" aria-label="目录">☰</button>
+
+  <div class="main-container">
+    <header class="site-header">
+      <h1>HOWLS</h1>
+      <p>wowaka 歌词中译本</p>
+      <a href="index.html" class="back-link">← 返回总目录</a>
+    </header>
+
+    <!-- ========== 侧边目录栏 ========== -->
+    <nav class="sidebar-toc" id="sidebarToc">
+      <h3>全部目录</h3>
+      <ul id="tocList"></ul>
+      <a href="index.html" class="toc-back-btn">← 返回总目录</a>
+    </nav>
+
+    <!-- ==================== HOWLS 专辑歌词内容 ==================== -->
+    <div class="album-divider" id="album-vocaloid">
+      <h2>《HOWLS》</h2>
+      <p>全10首</p>
+    </div>
+
+     <div class="song-section" id="song72">
+      <h2 class="song-title">1. 北极星</h2>
+      <p class="song-subtitle">ポラリス</p>
+      <div class="lyrics-block">
+        <p>又有谁能阻止呢<br>这颗心呐喊出的声音<br>啊啊，现在必须立刻把它传达出去<br>我感觉非如此不可<br><br>世界不知为何<br>摆出一副事不关己的面孔<br>我（僕）总是徒劳无功地空转<br>啊啊，相遇的数量，只要一次就好。<br>只要你存在于那里就好。<br><br>无论去向何方都在彷徨<br>每一天都尽是犯错<br>啊啊，我（僕）能顺利地做好吗<br>又变得快要哭出来了<br>「你的话，一定没问题的」<br>「因为你是个非常坚强的人啊」<br>在那句话语深处含笑的脸庞<br>我一直因此而得救<br><br>用数亿种细胞做出反应的那一天的你<br>我这胸中刻下的痛楚<br>你可曾想象过吗？<br>用如此反复重现的感情<br>我究竟该回应些什么才好？<br>用如此不断累积的年月<br>我究竟该歌唱些什么才好？<br><br>虽然我理应无法忘怀<br>却还是渴望能听到你的声音<br>我只想找到一处可以放声痛哭的所在<br>将一切都呐喊出来<br><br>即使独自一人也要延续的生命<br>宣告梦的终结的声音<br>沿着空无一人的道路前行吧<br>任谁也无法阻止了哟<br><br>再一次，向前迈出一步吧<br>你是个非常坚强的人<br>沿着空无一人的道路前行吧<br>沿着空无一人的道路前行吧<br><br>我究竟流过多少泪<br>度过了多少个不曾黎明的夜晚呢<br>那些所有的夜晚都必有其意义<br>我无法克制地如此坚信不疑<br><br>你的话，一定没问题的<br>你比任何人都更懂得「独自一人」为何物<br>甚至连同这句话语本身的含义也一并超越<br>因为你是个非常坚强的人啊<br><br>重复了数千数万次的自问自答的尽头<br>是什么呢？<br>「该说是孤独也好<br>该说是被欺骗也罢<br>除了我（私）之外<br>任何人都绝不可能明白」<br>在垃圾堆中闪耀的宝石<br>我蜷缩于那每一瞬的闪光之中<br>但是说到底，我（私）究竟是谁啊？<br>——我还没有软弱到能够如此呼喊的程度。<br><br>我之所以能够知晓那褪色的骄傲<br>不是因为别人<br>正是你的错啊<br>而我（僕）一直以来<br>究竟又能向你给予多少呢<br><br>我这胸中、这歌声中，那一小片<br>灯火碎屑的意义<br>现在，我要说出来哟——<br>喜、怒、哀、乐，所有这一切<br>都是我（僕）绝不退让的光<br><br>我理应能去往任何地方<br>只要顺从着那道光<br>即便我什么都不说<br>你也一定知道的吧<br>那迈出了一步的<br>你，是个非常坚强的人啊<br>沿着空无一人的道路前行吧<br>沿着空无一人的道路前行吧<br><br>在只学会了怀疑的<br>我们（僕ら）所立足的未来之中<br>我声嘶力竭地<br>想要呐喊，想要呐喊<br>甚至连将梦歌唱这件事<br>我都已经遗忘<br>但现在，我却无可奈何地<br>想要传达给你<br><br>我又怎么可能忘得了呢<br>你的声音，至今依然回响在我的耳旁<br>哭着，笑着，舞着，唱着<br>去往未来的彼岸吧<br><br>孤身一人的这条路也好<br>不会醒来的梦的前方也罢<br>走向那无人知晓的明天吧<br>任谁也无法阻止了哟<br><br>再一次，向前迈出一步吧<br>因为你是个非常坚强的人啊<br>沿着空无一人的道路，能够前行<br>沿着空无一人的道路，能够前行</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song73">
+      <h2 class="song-title">2. 伽蓝如何前零番地</h2>
+      <p class="song-subtitle">伽藍如何前零番地</p>
+      <div class="lyrics-block">
+        <p>这是第几周目的人生了？<br>那又是第几次的失败了？<br>我怎么可能会让你这种家伙明白呢，我的心脏<br><br>就让我们抛下那些只顾收集眼见之物就沾沾自喜的家伙们吧<br>就让我们负荷着从「无形之物」上感受到的伤痛，翻滚吧，呐<br><br>这是第几周目的人生了？<br>那又是哪位大人的命运啊？<br>那个忘记了快乐的价值、终日彷徨摇荡的少女，去了何方？<br><br>我应当去爱谁才好？<br>我又可有值得骄傲之物？<br>「我这种家伙怎么可能去搞明白啊！真是无聊」<br><br>敷衍了事的亡灵，挖掘出了心之箱<br>还把那个，得意洋洋地展示于人<br><br>将有形之物毁坏<br>再灌入这副身体<br>让我做一场白日梦吧<br>之后会变成怎样都无所谓了。<br><br>连同虚假都一饮而尽<br>再吐出伽蓝堂般空洞的言语<br>呐，只要那一瞬间就好<br>「言语什么的，根本不需要」<br>给我这么去想啊。<br><br>绝望？<br>那个，是现实吗？<br>还是，混杂着玩笑的狂骚？<br>沉溺于快乐，其前方静候着的，是天国，还是地狱？<br><br>我应当去爱谁才好？<br>我应当骄傲的，难道是这颗心吗？<br>「你那被琥珀色濡湿的眼瞳，能将我欺骗吗？」<br><br>总体而言：状况良好<br>奇异的是，你这混蛋真是美丽<br>让我看看你那不染一丝阴翳的眼眸吧<br><br>这东西，就凭它本身，能创造出多大的价值呢？<br>又能为这伽蓝堂般空洞的心，带来些什么？<br>此刻，一无所见<br>万物，皆不可见<br>无人，能得知晓<br>即便如此，以秒为单位，这头脑与心仍被不断铭刻<br><br>无论是谁也好，他也好，大家都是这样<br>总是被那层外表蒙骗<br>想必我也不例外，只是其中一人<br>但是啊<br>但是啊<br>不舍弃也无妨吧<br>那些栖居于人群之中，无需言语的心们<br><br>无论是绝望还是现实<br>无论是亡灵还是人类<br>都归我所有就好了，对吧？<br>现在，就将这颗高鸣的胸膛取出<br><br>将有形之物毁坏，再灌入这副身体<br>让我做一场白日梦吧，之后会变成怎样都无所谓了。<br><br>连同虚假都一饮而尽<br>再吐出伽蓝堂般空洞的言语<br>呐，只求那一瞬间，让我忘却自我<br>将这头脑，彻底放空<br><br>「让我，在梦中起舞吧。」<br>「无论何时，都拉上我与你共赴吧。」<br>「无论行至何处，都让我疯狂吧。」<br>「无论去哪，都可以哦。」<br><br>将虚假与真实一并饮尽，再吐出伽蓝堂般空洞的心<br>呐，让这颗心脏都为之震颤吧，为之跃动吧<br>与你一起<br><br>这是第几周目的人生了？<br>那又是第几次的失败了？<br>就让我们朝着那寄宿于「无形之物」中的憧憬之源，翻滚而去吧。<br><br>呐。</p>
+      </div>
+ 
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「伽蓝如何前零番地」：<br>"如何"可以读作どう（如「如何して」）。因此，「伽蓝如何前零番地」就谐音成了音同的「伽蓝堂前零番地」——是日本地址的格式。其中的"前"是xxx附近的意思，如"国会议事堂前"。<br>「伽藍」源自梵语"saṃghārāma"，本意是指僧侣修行、居住的园林或寺院。引申义：形容空无一物的巨大空间；比喻精神层面的状态——空虚、麻木、空无一物的心。<br>「番地」：日本的地址单位。「零番地」：一个不存在的、地图上找不到的地址——指向了被排斥在既定社会坐标系之外的局外人状态，一种无家可归、不被归类的疏离感。</p>
+        <p>2. 「我怎么可能会让你这种家伙明白呢，我的心脏」（君なんかにわかってたまりますか、あたしの心臓）：强烈的否定句型，通常由男性使用，或在非常激动、愤怒的情况下使用，语气粗鲁。「たまる」的汉字可以写作「堪る」，基本含义是"忍受"。整个句型的意思是"我怎么可能会让你……！"。「なんか」带有轻蔑、贬低、不屑一顾的色彩。</p>
+        <p>3. 「之后会变成怎样都无所谓了」（如何にでもなればいい）：核心含义是事情会发展成什么样都无所谓，听之任之，顺其自然。可表达自暴自弃、疲惫、幻灭；也可表达洒脱、释然。</p>
+        <p>4. 「总体而言：状况良好」（押し並べて良好だ）：带有客观、冷静、机械的语感，常用于报告、评估、临床诊断、新闻等场合。</p>
+        <p>5. 「无论何时，都拉上我与你共赴吧」（いつでもあたしを君に道連れて）：「道連れ」核心含义是同行者。视"同行"的目的不同：①普通的陪伴；②拉人作陪，共同走向悲剧结局（一起死亡、共同承担负面后果）。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song74">
+      <h2 class="song-title">3. 郊狼与幽灵</h2>
+      <p class="song-subtitle">コヨーテエンゴースト</p>
+      <div class="lyrics-block">
+        <p>末班车<br>那个女孩是个疯癫失常的幽灵<br>我看得入了迷<br>轻飘飘地、若无其事地飞起来了<br><br>传染开来的，是毫无阴翳的酩酊<br>飘飘然地得意忘形，直到天明<br>身为废品的我，真是苦涩啊<br><br>得不到任何回报的声音，看起来像一场猛烈的雨<br>在悲哀的夜里哭泣着<br>只剩下狼狈不已<br><br>一心不乱的交锋，也敌不过一瞬间的眼瞳<br>饥渴于焦灼的胸膛的这个我<br>怎么样？<br><br>喧喧嚣嚣的<br>逐渐进退维谷、无计可施的世界上<br>日复一日日复一日，除了那个女孩<br>我脑子里已经什么都没法去想<br>话虽可以如此轻易说出口<br>可我的这颗心，却无法找到<br>能靠三言两语就厘清的明快头绪啊<br><br>有限形态的我，还想要更多<br>没有你，就还是不够！<br>所谓生命的形态，一定<br>除你之外，皆不可能！<br><br>梦与现实之间，尽是谎言。<br>蓝色眼睛的郊狼在抽泣。<br>无论去向何方，都只能拖着腿脚团团打转。<br>正确答案，正确答案，正确答案，<br>我如此祈愿着。<br><br>终点站<br>被那个女孩吸引而去的命运<br>我承认了<br>反正，那个女孩是个疯癫失常的人类<br>人类<br><br>「预备，起——」&emsp;我们纵身一跃<br>跃入那个耸人听闻的瞬间<br>正确的早晨，正等待着怯懦的我<br><br>越过界线的两人，也敌不过一瞬间的孤身一人<br>在这悲哀的夜晚，薄情的我，又该如何是好？<br><br>堂堂正正地<br>我渴望从正面推开那个女孩的门扉<br>方法论也好大道理也罢都适可而止吧我早就听得受够了<br>无论何时何地何事何物<br>都不是言语能够解决的<br>尽管如此，我死死攥住的<br>终究也只有言语<br><br>以人类的形态，独自一人<br>彷徨过的夜晚，创伤未愈/无法言说！<br>被清醒梦操控起舞的我，更想看见像你那样的夜晚！<br><br>冲击我胸口的「东西」&emsp;始终只有「那个」<br>红色毛发的郊狼狂嚎不已。<br>烂醉如泥失去记忆，却依然<br>歌唱，歌唱，正渴望着歌唱。<br><br>堂堂正正地<br>我渴望从正面推开那个女孩的门扉<br>方法论也好大道理也罢都适可而止吧我早就听得受够了<br>无论何时何地何事何物<br>都不是言语能够解决的<br>尽管如此，我死死攥住的<br>终究，也只剩下了言语<br><br>喧喧嚣嚣的<br>逐渐进退维谷、无计可施的世界上<br>日复一日日复一日，除了那个女孩<br>我脑子里已经什么都没法去想<br>话虽可以如此轻易说出口<br>可我的这颗心，却无法找到<br>能靠三言两语就厘清的明快头绪啊<br><br>有限形态的我，还想要更多<br>没有你，就还是不够！<br>所谓生命的形态，一定<br>除你之外，绝无可能！<br><br>以人类的形态，独自一人<br>彷徨过的夜晚，创伤未愈/无法言说！<br>被清醒梦操控起舞的我，更想看见像你那样的夜晚！<br><br>梦与现实之间，尽是谎言。<br>蓝色眼睛的郊狼在抽泣。<br>无论去向何方，都只能拖着腿脚团团打转。<br>正确答案，正确答案，&emsp;<br>我如此祈愿着。<br><br>冲击我胸口的「东西」&emsp;始终只有「那个」<br>红色毛发的郊狼狂嚎不已。<br>烂醉如泥失去记忆，却依然<br>歌唱，歌唱，正渴望着歌唱。</p>
+      </div>
+    
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「郊狼」：wowaka："据说'郊狼'这种动物之所以嚎叫，是希望人们能注意到眼前事物背后隐藏的真相。有些部落还将外来者称为'郊狼'。作为世界上的异乡人和漂泊者的我们，用歌声和乐器肆意嚎叫，乍一听虽然吵闹，但在其背后有着确凿的意志和意义。就是这样的一首歌。"</p>
+        <p>2. 「那个女孩是个疯癫失常的幽灵」（イカれる）：①疯狂、精神不正常（最常见的含义）；②年轻人用语，褒义，"帅呆了"；③损坏、失灵。</p>
+        <p>3. 「逐渐进退维谷、无计可施的世界」（二進も三進もいかなくなってる）：日语惯用语"二進も三進もいかない"的进行时。语源是算盘的除法运算术语——当运算陷入困境时，计算者就会陷入这种状态。引申为普遍的人生困境。《里表LOVERS》里也有这个表达。</p>
+        <p>4. 「创伤未愈/无法言说！」（いえない的两义性）：①癒える→癒えない（尚未愈合）；②言う→言える→言えない（无法言说）。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song75">
+      <h2 class="song-title">4. SLEEPWALK</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>「求你让我逃走吧」<br>我早已呼喊到声嘶力竭<br>我的愿望，会有实现的那一天吗<br>我无法与你对视交谈<br>无论那关乎喜怒悲欢<br><br>我无数次呼喊着，求你爱我啊——<br>即便如此，你注视着的，从来就不是我，对吧？<br>净是些无法释怀的谜题啊<br>这个世界，这世界啊<br><br>「我不知道如何去爱啊」<br>我的话语能传达到吗<br>已经无法回头了啊，唯有继续歌唱而已<br><br>「喂，神啊，你所见的视野如何？」<br>被虚无缠绕，徘徊于夜色中央的少女如是说<br>「为何你眼中映出的我，身侧竟空无一人，空无一人？」<br><br>我正在鸣响SOS求救信号啊<br>求求你，是时候注意到我了吧<br>可今天，光芒依旧只洒向柏油路的那片死灰<br><br>不如就此放浪形骸<br>不如就此游荡徘徊<br>反正所谓的正确答案，没有任何人知道<br><br>「试着去爱吧」<br>「试着失去吧」<br>就按我的意志，试着逃出去吧<br><br>我无数次呼喊着，求你来寻找我啊——<br>即便如此，可我的话语，终究无法传达<br>我净是被肆意玩弄于股掌之间啊<br>被这个世界，这世界啊<br><br>你说，「我早就忘了该如何去爱」<br>你的眼瞳，曾对我如是轻声低语<br>我终究无法依赖于你<br>唯有再次独自一人呼喊到声嘶力竭<br><br>在那些如同梦中漫步的夜里<br>我曾深深沉溺<br>你沉睡在我无意识一隅的身影<br>刺痛着我，好痛，好痛<br><br>要违逆那名为你的引力，我无论如何都办不到啊<br>你我这深夜交错的思绪，真像一出电视连续剧啊<br><br>在这片我迫降的夜之海上<br>我该祈祷什么<br>我该点缀谁的生命<br>啊啊<br>我依然毫无头绪<br>唯有继续焦灼下去<br><br>在那些如同梦中玩乐的夜里，我曾等待着你<br>沉入自我意识里侧的真心话，好痛<br><br>好痛<br><br>真正的<br>正确答案什么的<br>无论是谁<br>无论是什么<br>都无从知晓<br><br>「神啊，你觉得今天的我，表现得如何？」<br>扰乱了静谧夜色的少女如是说<br>「如果你眼中映出的我身侧空无一人的话，<br> 那我差不多也该停止鸣响SOS信号了吧」<br><br>今天依旧只是用力踩踏着那条柏油路<br><br>让我们好好谈谈吧<br>就让我做我自己吧<br>这世界的规则，彻底打碎就好<br><br>所谓爱的方式<br>为什么，为什么<br>我绝不会再让你为所欲为<br><br>不如就此放浪形骸<br>不如就此游荡徘徊<br>所谓的正确答案，已经由我来决定了<br><br>「试着去爱吧」<br>「试着失去吧」<br><br>就按我的意志，试着去爱吧</p>
+      </div>
+   
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「净是些无法释怀的谜题啊」（腑に落ちない）：难以理解，难以接受。核心意思在于，难以理解和接受的点并不是在逻辑上，而是在情感上、情理上。</p>
+        <p>2. 「被虚无缠绕，徘徊于夜色中央的少女如是说」（夜を虚付く彼女は言うよ）：这里wowaka用了一个双关。<br>动词「彷徨く」一般写作假名「うろつく」，意思是彷徨、徘徊。同源词「うろうろ」，指内心的迷茫混乱导致的行动上的失序状态。<br>wowaka把这里写作了"虚付く"，是他造的一个词——"虚无、空洞（うろ）"+"附着（つく）"。<br>修饰关系可以是"（夜を虚付く）彼女"或者"夜を（虚付く彼女）"：<br>① 比较常规的，"在黑夜中徘徊的"她。<br>② 「虚付く」修饰「彼女」，也就是"被虚无缠身的"她穿过黑夜。<br>因为「を」本身就有"穿过"的意思，所以就算动词被挪去修饰「彼女」，句子的意思也不会受到破坏。</p>
+      </div>
+    </div>
+    <div class="song-section" id="song76">
+      <h2 class="song-title">5. 杀风景</h2>
+      <p class="song-subtitle">殺風景</p>
+      <div class="lyrics-block">
+        <p>给我抛开先入为主的观念再开口！<br>给我原谅这怯懦的我（あたし）！<br>把绝妙的时机给我送过来！<br>这杀风景的都市的狂骚<br><br>禁止阅览的密封书页<br>情绪不安定，只不过是幻觉<br>张开全部细胞，布设天罗地网<br>给我潜入这皂色的夜！<br><br>全知全能的大人们<br>今天也一如既往，聪明地将世界毁灭<br>在我的单间公寓<br>开始这恍若隔世、与我何干的抵抗<br><br>廉价的就好<br>给我插上耳机！<br>误解着，哭泣着，跳起舞直到天明<br>若能在忘我中翻滚打转<br>你大概也就不会将我（あたし）看见了吧<br><br>喂，喂<br>你听得到吗<br>就算听不到，我（あたし）也要说<br><br>即便是在流转不息的轮回之中<br>这份感觉也不会消失啊<br><br>你不存在<br>我（僕）不存在<br>谁都不存在<br>这就是世界<br>这就是世界<br>旋转着的世界<br>旋转着的世界<br>就是如此<br><br>给我抛开先入为主的观念再开口！<br>给我原谅这怯懦的我（あたし）！<br>把绝妙的时机给我送过来！<br>这杀风景的都市的狂骚</p>
+      </div>
+  
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「殺風景」：景色缺乏情趣或过于单调，无法引起观者的审美愉悦或情感共鸣；用于形容空无一物的房间或衰败的街道等无机质的风景；不合时宜、破坏气氛的言行。</p>
+        <p>2. 「禁止阅览的密封书页」（袋綴じ）：<br>（1）古典义：日本传统书籍（和本）的一种主要装订方式。因为每张纸都像一个未封口的"袋子"，故得名"袋綴じ"。<br>（2）现代义：杂志的密封页——周刊杂志或书籍中，为了限制未成年人阅读或激发读者购买欲，而将几页内容用胶水粘合或用纸袋封起来的部分。读者需要动手拆开边缘，才能看到里面的劲爆内容。<br>因此，"袋綴じ"是"秘密的、被封印的、带有禁忌色彩的内容"的代名词。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song77">
+      <h2 class="song-title">6. November</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>悄然阖上的眼睑<br>正在寻找着灯火<br>掠过面颊的风<br>将吹向何方<br>将吹向何方<br><br>隐匿于一人高的草丛中的<br>是汗水濡湿的梦的气味<br>曾抛向天空的那些言语<br>此处无迹可寻<br>此处无迹可寻<br><br>我曾默念着，「再来一回」<br>纵然并无任何可去之处<br>本想哭泣却笑了出来<br>不知为何，我总能笑得出来<br><br>之所以默念着「再来一回」<br>只因我无法继续留驻此处<br>心生寂寞放声歌唱<br>让我得以感到，「这就是我（僕）」<br><br>恍若悠悠然地摇曳起舞<br>夜色只是一味地上浮<br>仿佛要将光芒梳理开来一般<br>摇晃着<br>摇晃着<br>摇晃着的是——<br><br>那周而复始、空洞轮转的季节<br>与你并肩而立<br>我（あたし）眼瞳的至深之处<br>被触碰了<br>被触碰了<br>被触碰到了啊<br><br>我曾默念着，「再来一回」<br>纵然并无任何可去之处<br>本想哭泣却笑了出来<br>不知为何，我总能笑得出来<br><br>纵使是早已心知肚明的事<br>我却终究无法真正想通<br>这踉踉跄跄的步履<br>将走向何方<br>将走向何方<br><br>即便独自一人放声歌唱<br>我也不认为会被就此遗忘啊<br>悄然阖起的眼睑<br>终不在此处<br>终不在此处<br><br>脑海中浮现的言语<br>未曾发出声响便已迸裂<br>我（あたし）曾深恋着的<br>那片色彩尽褪的街景<br><br>我曾默念着「再来一回」<br>只因我没有理由继续留驻此处<br>心生寂寞放声歌唱<br>让我得以感到，「这就是我（僕）」<br><br>恍若悠悠然地摇曳而笑<br>夜色只是一味地上浮<br>仿佛要将光芒梳理开来一般<br>摇晃着<br>摇晃着<br>摇晃着的是<br><br>周而复始、空洞轮转的季节<br>与你并肩而立<br>我（あたし）眼瞳的至深之处<br>被触碰了<br>被触碰了<br>被触碰到了啊</p>
+      </div>
+    </div>
+
+      <div class="song-section" id="song78">
+      <h2 class="song-title">7. LACK</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>吐出了扭曲的爱<br>我开始渴望得见你的秘密<br>仅仅凭此<br>我的那颗心便已剧烈摩擦到吱呀作响<br>这，不是别人，正是我<br><br>曾沉醉其中，纵情欢笑<br>我们这些在地面匍匐打转的人<br>要去往何方？<br>看来，没有任何一个人<br>身上恰好带着答案<br><br>呐，事到如今，爱什么的<br>我才不想去理解呢<br>用扭曲的声音放声歌唱<br>我开始渴望揭开你的秘密<br>待我回过神来<br>就连那片浅淡朦胧的景色<br>也确凿无疑地，是我<br><br>我只是祈愿着「普通」<br>却没有任何可去之处<br>在那拂晓时分<br>我看见了那份无法比拟的孤独<br><br>「能将这不足的我填满之物，根本不存在吧？」<br><br>来吧<br>向着自由的远方而去！<br>也就是说，仅仅凭此<br>我就理应能不将你遗忘<br>对此，我大概毫不怀疑吧 <br><br>每当我试图紧握这颗<br>残缺心脏的意义<br>我便又一次被迫痛彻地认识到<br>自己除了挣扎，别无他法<br>尽情嘲笑这个未完成的我吧！<br><br>你在看着吧，你在看着吧？<br>「不正确也无妨」<br>「不特别也无妨」<br>就算只是将这些言语罗列<br>看来也什么都改变不了<br><br>即便如此，我依然祈愿着「普通」<br>我这个人，终究也只是那样罢了<br>这个满是几乎要将人压垮的谎言的<br>世界，我已经受够了<br><br>能够填补这不足的我的东西<br>我不需要了<br>将一切尽数承担后<br>依然残存的那心念，就是我<br><br>来吧<br>身披音符，独自歌唱<br>仅凭这副身体<br>仅凭这束手无策的呐喊便好<br>只要呐喊，便已足够<br><br>为了用这声音<br>不断揭示我诞生的意义<br>我的存在<br>又怎能托付给他人的话语？<br><br>来吧<br>向着自由的远方而去！<br>也就是说，仅仅凭此<br>我就能不将你遗忘<br>对此，我毫不怀疑<br><br>每当我紧握住这颗<br>残缺心脏的意义<br>我就被迫明白<br>这，就是我，也只能是我<br>我一直以来<br>就是这样被迫领悟至今<br><br>尽情嘲笑这个未完成的我吧<br>这不完全的我，便是这样<br>非现实地翩翩起舞的那个你<br>也在看着吧，也在看着吧？</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song79">
+      <h2 class="song-title">8. Idol Junkfeed</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>用不健全的理想，来一场大欢迎<br>讨厌你，我讨厌你<br>将无级变速的装置<br>强行拧入，扬起漫天尘土<br><br>就连那因想象力缺乏症<br>毫无知觉地跳着舞的幕后黑手<br>凭着被「此乃理所当然」冻结的大脑<br>竟也沦为了时代的宠儿<br><br>绝望啊，给我逃离吧！<br>用噪音来嚎叫吧？<br>我本连反抗命运之类的念头<br>都未曾有过，可是。<br><br>在尽是幻想的春天里被操纵着起舞，浑身抹满耻辱<br>在仿冒着狂骚的夜晚伸出未雨绸缪的拐杖<br>在绝世的混沌之中铺满纸上谈兵的空论<br>这便是不断败给诱惑的可悲姿态<br><br>用无数笨拙的谎言拼命堆砌<br>终告完成的，偶像大人<br>给这麻木无感状态做个康复训练<br>顺便假装跳个舞，敢问阁下何人？<br><br>对不完整的脆弱<br>始终选择移开视线的，是神明吗？<br>鄙人深知此事早已无计可施<br>在如斯深重的绝望之中<br><br>在数学般精密的表层舞台上<br>沾满泥污的言语已死<br>何不撕毁这身过度装饰的华丽衣裳<br>试着做回满身尘土的灰姑娘？<br><br>绝望啊，给我逃离吧！<br>用噪音来嚎叫吧？<br>我本连遵从命运之类的念头，都未曾有过<br>嘲笑这不健全理想论的家伙<br>都给我滚得无影无踪<br>我本连反抗命运之类的念头，<br>都未曾有过，可是。<br><br>一味地追逐着有形的妄想，所获的唯有谎言<br>满溢着喧嚣的街道，只是嘲笑着那个容器<br>在绝妙的共识面前，耷拉下头颅的是强者<br>是被优劣操纵着起舞，连那件事情都无法承认的人偶<br><br>尽是幻想的世界也好<br>尽是妄想的舞台也罢<br>它们并非优越的武器<br>求你了，让我这样相信吧<br><br>不要被夺走想象<br>用绝望呼唤理想<br>别让自身被那偶像裹挟<br>本该如此，不是吗？</p>
+      </div>
+  
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「Idol Junkfeed」：Junkfeed = Junk Food（垃圾食品）+ Newsfeed（信息流）。带有明显的负面色彩，个体被持续不断地、被动地推送着并喂养着低质内容。</p>
+        <p>2. 「鄙人深知此事早已无计可施」（如何ともし難く存じます）：极其谦卑的古语，"我认为这事很难有任何办法"。表达的是一种理智上的判断：面对如此绝望，任何行动都已无效。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song80">
+      <h2 class="song-title">9. 青</h2>
+      <p class="song-subtitle"> </p>
+      <div class="lyrics-block">
+        <p>我们的青<br>无论到什么时候&emsp;都不会消逝<br>我曾一直这么以为着<br>所以<br>即便我们的恋情终将终结<br>我仍会相信那将留存之物<br><br>「我可以哭吗」<br>「我可以笑吗」<br>哪个方向都无法前行<br>脸上露出了不可思议的表情啊<br><br>我们啊<br>我们的恋情终将终结<br>即便如此，我们大概不会就此终结吧<br><br>像笨蛋一样，天真无邪<br>保持着无法改变的样子，这样就好<br>像谎言一般，却并非谎言<br>让我们的歌<br><br>那焦灼的颜色，那颜色<br>纵然无法将任何人染上<br>我也绝对不可能舍弃<br>我做不到啊<br>心这种东西，太过任性自私<br>即使放飞的声音<br>将夜幕彻底降临<br>我们也要仅凭我们本来的样子，在此处<br>此刻，放声歌唱<br><br>在不经意的瞬间<br>在未被满足的夜晚<br>在说着俏皮话走过的归途上<br>如今我们的恋情仍被遗弃在后面<br>如今我们的呼吸仍停留在那里<br><br>硬要说的话<br>该怎么说呢<br>我们曾那般害羞着<br>垂下眼帘<br><br>某一天<br>纵使我们将青色涂抹殆尽<br>我们大概也不会就此不再是我们了吧<br><br>无聊的<br>无趣的<br>拼凑而成的歌也无妨<br>保持着与任何人<br>都不相称的形态，大概是这样吧<br><br>燃烧的色彩迸射出的<br>有如光芒般的明日的气息<br>尽是些无法化为言语的事呢<br>我完全明白的，但是<br>在那夜的彼方<br>即便溺亡于被拥抱的天空，啊啊<br>我们还能再一次笑出来吗<br>说着，那不过是一场梦中之梦<br><br>无聊的<br>无趣的<br>拼凑而成的歌也无妨<br>保持住你那与任何人<br>都不相称的样子，这样就好<br><br>像笨蛋一样，没出息的<br>靠不住的样子就好<br>像谎言一般，却并非谎言<br>让我们歌唱我们吧<br><br>燃烧的色彩迸发出的<br>有如光芒般的明日的气息<br>尽是些无法化为言语的事啊<br>我全都明白的，但是<br>在那夜的彼方<br>即便溺亡于被拥抱的天空<br>也绝对不可能忘得掉<br>因为我已经知晓了那个颜色<br><br>那焦灼的青色，那青色<br>纵然无法将任何人染上<br>我也绝对不可能舍弃<br>我做不到啊<br>心这种东西，太过任性自私<br>放飞的颜色，如今<br>仍在我们胸中燃烧<br>我将放声唱出那样的歌</p>
+      </div>
+    
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「靑」："青"在日语里是蓝色，但意象和中文的青是通的，如青春、青涩、靑空（广阔的蓝天，象征希望），同时也有蓝色的忧郁含义。</p>
+        <p>2. 「无论哪边都去不了」（征く）：这里的动词就是「行く」，但wowaka写作了「征く」——"出征，远行"的那个"征"。</p>
+        <p>3. 「梦中之梦」（夢のまた夢）：核心意思是"实现可能性极其渺茫的梦想，或如同梦境般虚幻、不切实际的事情"。也可以形容极其美好，如梦似幻的事。<br>这个表达可以追溯到丰臣秀吉的辞世句"荣华富贵，不过是梦中之梦"（なにはのことは夢のまた夢）。因此不仅带有"难以实现"的含义，还蕴含着一层深刻的哲学思考，即对世事无常、虚幻泡影的感喟。</p>
+        <p>4. 「焦灼的」（焦がした）：也有"烧得焦黑"的意思，如"将我们的歌烧得焦黑的那颜色"。</p>
+        <p>5. 「那也不会让我们就此结束吧」：这里的「僕らをやめる」是不寻常的用法——wowaka把"我们"看做了可以停止、结束的实体。对比：戒烟（停止吸烟）：タバコをやめる。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song81">
+      <h2 class="song-title">10. 风车</h2>
+      <p class="song-subtitle">ウィンドミル</p>
+      <div class="lyrics-block">
+        <p>埋首于忘我沉迷的每一天<br>没有任何一丁点的才能<br>我们，只是被淋漓的雨浸透<br>甚至不知道擦拭的方法<br><br>对这一切投以笑容的某个人<br>对这一切为我们展露笑容的某个人<br>我们只是在不断寻觅着，那人眼瞳深处的光<br><br>向我投来的目光，不带一丝浑浊<br>让我这副身体如被钉住一般<br>时至今日，就连那梦境般的孤独<br>我也曾感觉能够将其超越<br><br>风啊，吹拂的风，与之相抗的<br>唯有这声音，这属于我的声音<br>我要如此歌唱，如此再度歌唱<br>以此宣告，我这身影的居住地，正是此刻<br>世间万象，皆在这一瞬间<br>汇集，飞溅，继而往复循环<br>就连这条终有一日将会逐渐终结的生命<br>也将轻盈地超越而去<br><br>迷失在五里雾中的街巷<br>没有任何一丁点值得夸耀的东西<br>因为，这对被雨浑身浇透的我们来说<br>根本无从拥有啊<br><br>你对这一切投以笑容<br>惟愿此刻，你依旧在笑<br>为此，我独自祈愿着<br>在无数个辗转的孤夜里，沉入梦乡<br><br>若是行走在无法回头的路上<br>踉跄的身躯和这颗心啊<br>仿佛要将疯狂挥舞的四肢都拧断脱落<br>即便是这般徒劳的挣扎，也无所谓吧<br><br>为何，吹拂的风，我会看得入迷呢？<br>纵然不解，我大概仍能露出笑容吧<br>歌唱吧，只管歌唱<br>以此宣告，我正存在于此地<br>如同挥拳痛击一般<br><br>为何，吹拂的风，我曾看得入迷呢？<br>为何，吹拂的风，我又要与之相抗呢？<br>歌唱吧，只管歌唱，用那副身影<br>笑吧，是啊，笑吧，用那颗心<br><br>风啊，吹拂的风，相抗的<br>唯有这声音，这属于我的声音<br>我要如此歌唱，如此再度歌唱<br>以此宣告，我这身影的居住地，正是此刻<br>为何，吹拂的风，我曾看得入迷呢？<br>那是因为，纵然不解，我仍能展露笑容<br>歌唱吧，只管歌唱<br>我就存在于这个容身之所<br>我们啊<br><br>我始终在寻找着，应当去爱的东西<br>所以才无法，在此刻停下脚步啊<br>埋首于忘我沉迷的每一天<br>终将要把那梦境般的孤独超越<br>将一切的一切，在这一瞬间<br>汇集于此，弹射飞散，直到某一天<br>就连这条注定逐渐终结的生命<br>也就这样超越而去吧</p>
+      </div>
+    
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「埋首于忘我沉迷的每一天」（無我夢中）：热衷于某事而忘掉一切，体现出强烈的专注与激情，以至于对周遭环境乃至自身存在都失去觉察的状态。</p>
+        <p>2. 「梦境般的孤独」（夢心地）：由"梦"和"心地"（心情、感觉）构成，核心含义是"如同在梦中一般的感觉"。通常是恍惚的、不真切的，带有一种与现实世界的疏离感。</p>
+        <p>3. 「仿佛要将疯狂挥舞的四肢都拧断脱落」（もげる）：（从根部）被揪掉、被拧断、脱落。描绘的是一种因受到巨大外力而发生的、带有撕裂感的断裂。</p>
+        <p>4. 「居場所」：从构词法而言，本质上就是"一个可供'存在'的'场所'"。<br>物理意义：人所在的地方。<br>心理意义：更深层次上，指一个人能够感到安心、被接纳、可以做真实自己的"归属之地"或"精神家园"。</p>
+        <p>5. 「风车」：或许是《堂吉诃德》里的风车？<br>沉迷于骑士小说的穷乡绅堂吉诃德带着侍从桑丘·潘沙外出游历冒险。一天，他们在郊野远远望见了几十架高高耸立的风车。堂吉诃德当即认定这些风车是凶恶的巨人，不顾桑丘在身后拼命阻拦和呼喊"那是风车"，便挺起长矛、催马冲上前去。<br>在英语世界里，"tilting at windmills"（向风车发起攻击）已经成为一个固定的成语，形容：攻击想象中的敌人；与假想的或不切实际的目标作斗争；做徒劳无益、不合时宜的蠢事。</p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 wowakashinsei.art · 个人翻译作品，仅供同好交流</p>
+    </footer>
+  </div>
+
+  <!-- ==================== JavaScript 自动目录生成与高亮 ==================== -->
+  <script>
+    (function() {
+      const tocList = document.getElementById('tocList');
+      const songSections = document.querySelectorAll('.song-section');
+      const albumDividers = document.querySelectorAll('.album-divider');
+      const tocLinks = [];
+
+      // 1. 遍历所有专辑分隔和歌曲章节，生成目录
+      albumDividers.forEach((divider) => {
+        const albumTitle = divider.querySelector('h2');
+        if (!albumTitle) return;
+        const albumId = divider.getAttribute('id');
+
+        const albumItem = document.createElement('li');
+        albumItem.className = 'toc-album';
+        albumItem.textContent = albumTitle.textContent.trim();
+        tocList.appendChild(albumItem);
+
+        // 找到这个专辑后面的所有歌曲，直到下一个专辑分隔
+        let nextSibling = divider.nextElementSibling;
+        while (nextSibling && nextSibling.classList.contains('song-section')) {
+          const titleElement = nextSibling.querySelector('.song-title');
+          if (titleElement) {
+            const titleText = titleElement.textContent.trim();
+            const sectionId = nextSibling.getAttribute('id');
+
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = '#' + sectionId;
+            link.textContent = titleText;
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+
+            listItem.appendChild(link);
+            tocList.appendChild(listItem);
+            tocLinks.push({ link, sectionId });
+          }
+          nextSibling = nextSibling.nextElementSibling;
+        }
+      });
+
+      // 2. 滚动时高亮当前章节对应的目录项
+      function highlightTocOnScroll() {
+        let currentSectionId = '';
+        songSections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 180) {
+            currentSectionId = section.getAttribute('id');
+          }
+        });
+
+        tocLinks.forEach(item => {
+          item.link.classList.remove('toc-active');
+          if (item.sectionId === currentSectionId) {
+            item.link.classList.add('toc-active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', highlightTocOnScroll);
+      highlightTocOnScroll(); // 初始调用
+
+      // 3. 移动端目录显示/隐藏
+      const sidebarToc = document.getElementById('sidebarToc');
+      const tocToggleBtn = document.getElementById('tocToggleBtn');
+
+      if (tocToggleBtn && sidebarToc) {
+        tocToggleBtn.addEventListener('click', function() {
+          sidebarToc.classList.toggle('visible');
+        });
+
+        // 点击目录内链接后自动收起（移动端）
+        tocList.addEventListener('click', function(e) {
+          if (e.target.tagName === 'A' && window.innerWidth <= 1024) {
+            sidebarToc.classList.remove('visible');
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

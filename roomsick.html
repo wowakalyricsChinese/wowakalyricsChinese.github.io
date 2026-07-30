@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Roomsick Girl’s Escape · 歌词中译本</title>
+  <style>
+    /* ========== 全局重置与文学配色 ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #faf8f5;
+      color: #3b3a36;
+      font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", "Georgia", "华文中宋", "宋体", serif;
+      line-height: 1.8;
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .main-container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 30px 120px 30px;
+    }
+
+    /* ========== 头部与导航栏 ========== */
+    .site-header {
+      text-align: center;
+      margin-bottom: 70px;
+      border-bottom: 1px solid #e0dcd3;
+      padding-bottom: 30px;
+    }
+
+    .site-header h1 {
+      font-size: 2.4rem;
+      font-weight: 400;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+      color: #4a463b;
+    }
+
+    .site-header p {
+      font-size: 1rem;
+      color: #8b8678;
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      text-decoration: none;
+      color: #8b8678;
+      padding: 8px 18px;
+      border: 1px solid #d4cec2;
+      border-radius: 25px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      background-color: #4a463b;
+      color: #faf8f5;
+      border-color: #4a463b;
+    }
+
+    /* ========== 侧边目录栏 (桌面固定) ========== */
+    .sidebar-toc {
+      position: fixed;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      max-height: 75vh;
+      width: 240px;
+      background-color: rgba(250, 248, 245, 0.88);
+      backdrop-filter: blur(6px);
+      border: 1px solid #e0dcd3;
+      border-radius: 8px;
+      padding: 20px 15px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .sidebar-toc::-webkit-scrollbar {
+      width: 4px;
+    }
+    .sidebar-toc::-webkit-scrollbar-thumb {
+      background: #d4cec2;
+      border-radius: 4px;
+    }
+    .sidebar-toc::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar-toc h3 {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: #8b8678;
+      margin-bottom: 12px;
+      text-align: center;
+      font-weight: 400;
+      border-bottom: 1px solid #e0dcd3;
+      padding-bottom: 8px;
+    }
+
+    .toc-back-btn {
+      display: block;
+      text-decoration: none;
+      color: #8b8678;
+      font-size: 0.82rem;
+      padding: 5px 8px;
+      margin-top: 16px;
+      border: 1px solid #d4cec2;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .toc-back-btn:hover {
+      background-color: #4a463b;
+      color: #faf8f5;
+      border-color: #4a463b;
+    }
+
+    .sidebar-toc ul {
+      list-style: none;
+    }
+
+    .sidebar-toc li {
+      margin-bottom: 4px;
+    }
+
+    .sidebar-toc a {
+      text-decoration: none;
+      color: #6b665b;
+      font-size: 0.82rem;
+      display: block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-toc a:hover {
+      background-color: #e8e4da;
+      color: #3b3a36;
+    }
+
+    .sidebar-toc a.toc-active {
+      background-color: #4a463b;
+      color: #faf8f5;
+      font-weight: 500;
+    }
+
+    .sidebar-toc .toc-album {
+      font-size: 0.78rem;
+      color: #a09b8f;
+      padding: 8px 8px 4px 8px;
+      letter-spacing: 1px;
+      border-bottom: 1px dashed #e0dcd3;
+      margin-top: 8px;
+      font-weight: 500;
+      cursor: default;
+    }
+    .sidebar-toc .toc-album:first-of-type {
+      margin-top: 0;
+    }
+
+    /* ========== 移动端适配 ========== */
+    @media (max-width: 1024px) {
+      .sidebar-toc {
+        position: fixed;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 220px;
+        max-height: 60vh;
+        background-color: rgba(250, 248, 245, 0.96);
+        backdrop-filter: blur(8px);
+        border: 1px solid #e0dcd3;
+        border-radius: 10px;
+        padding: 16px 12px;
+        display: none;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+      }
+
+      .sidebar-toc.visible {
+        display: block;
+      }
+
+      .main-container {
+        padding: 30px 20px 80px 20px;
+      }
+    }
+
+    /* ========== 移动端浮动目录按钮 ========== */
+    .toc-toggle-btn {
+      display: none;
+      position: fixed;
+      left: 20px;
+      bottom: 40px;
+      background: #4a463b;
+      color: #faf8f5;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      font-size: 1.5rem;
+      z-index: 200;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .toc-toggle-btn:hover {
+      background: #5b5547;
+    }
+
+    .toc-toggle-btn:active {
+      transform: scale(0.94);
+    }
+
+    @media (max-width: 1024px) {
+      .toc-toggle-btn {
+        display: flex;
+      }
+    }
+
+    /* ========== 歌词章节样式 ========== */
+    .song-section {
+      margin-bottom: 80px;
+      scroll-margin-top: 50px;
+    }
+
+    .song-title {
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      color: #4a463b;
+      border-left: 4px solid #c2b8a7;
+      padding-left: 18px;
+    }
+
+    .song-subtitle {
+      font-size: 0.9rem;
+      color: #8b8678;
+      margin-bottom: 25px;
+      padding-left: 22px;
+    }
+
+    .lyrics-block {
+      margin-bottom: 25px;
+    }
+
+    .lyrics-block p {
+      margin-bottom: 12px;
+    }
+
+    .annotation-block {
+      background-color: #f3efe8;
+      border-left: 3px solid #c2b8a7;
+      padding: 15px 20px;
+      margin: 25px 0 35px 0;
+      font-size: 0.9rem;
+      color: #5b564a;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .annotation-block h4 {
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #4a463b;
+    }
+
+    .annotation-block p {
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    /* ========== 专辑分隔标题 ========== */
+    .album-divider {
+      text-align: center;
+      margin: 100px 0 60px 0;
+      padding: 30px 0;
+      border-top: 1px solid #e0dcd3;
+      border-bottom: 1px solid #e0dcd3;
+    }
+
+    .album-divider h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #6b665b;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .album-divider p {
+      font-size: 0.85rem;
+      color: #a09b8f;
+      font-style: italic;
+    }
+
+    /* ========== 页脚 ========== */
+    .site-footer {
+      text-align: center;
+      margin-top: 80px;
+      padding-top: 25px;
+      border-top: 1px solid #e0dcd3;
+      font-size: 0.85rem;
+      color: #8b8678;
+    }
+
+    /* ========== 平滑滚动 ========== */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 移动端浮动目录按钮 -->
+  <button class="toc-toggle-btn" id="tocToggleBtn" aria-label="目录">☰</button>
+
+  <div class="main-container">
+
+    <!-- ========== 头部 ========== -->
+    <header class="site-header">
+      <h1>Roomsick Girl’s Escape</h1>
+      <p>wowaka 歌词中译本</p>
+      <a href="index.html" class="back-link">← 返回总目录</a>
+    </header>
+
+    <!-- ========== 侧边目录栏 (JS 自动填充) ========== -->
+    <nav class="sidebar-toc" id="sidebarToc">
+      <h3>全部目录</h3>
+      <ul id="tocList"></ul>
+      <!-- 在目录列表末尾添加返回按钮 -->
+      <a href="index.html" class="toc-back-btn">← 返回总目录</a>
+    </nav>
+
+    <!-- ==================== 歌词内容 ==================== -->
+
+    <div class="album-divider" id="album-vocaloid">
+      <h2>《Roomsick Girl's Escape》</h2>
+      <p>全7首</p>
+    </div>
+
+    <div class="song-section" id="song21">
+      <h2 class="song-title">1. SisterJudy</h2>
+      <p class="song-subtitle"></p>
+      <div class="lyrics-block">
+        <p>在另有隐情的关系之中<br />你总是在歌唱着些什么<br />纵身一跃，能完美收场吗？<br />在那里，声音戛然而止<br /><br />1&emsp;2&emsp;3<br />在怨天尤人之前，先使其发生<br />我正备好一则，接下来数秒间的童话<br />即刻，就请侧耳倾听吧。<br /><br />初次面对「那件事情」，感觉如何，修女（姐妹）<br />你总是在嗤笑些什么？<br />奏响吧，那仿佛被吞噬般的声响<br />要歌唱什么，歌唱什么才好呢<br /><br />来吧<br /><br />3&emsp;2&emsp;1<br />由我来发出「开始」的信号<br />那么，接下来就请你先行一步<br />向着一个不会因舞蹈而疲惫的世界<br />就是现在，我要将你强行拽入<br /><br />将原初的拟态，即刻发动！<br />将所剩无几的期待，一肩担起！<br />你正肆意摆布着我，摆布着那个曾厌恶着放弃的视线的我<br /><br />闭门不出的思维转换<br />层层堆叠的兴趣连锁<br />我已然沦为了一个食髓知味的旁观者<br /><br />潸潸落泪，颓然崩溃的修女（姐妹）<br />你究竟在歌唱着什么，歌唱着什么<br />不断将错误修正至今，此刻，所有声音平等地鸣响<br />生存指南：切勿倒下<br />那是曾持续映照着那前方所见之像的，终结之今日<br /><br />那时，仿佛下一秒就要消失无踪</p>
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「纵身一跃，能完美收场吗？」（決まる）：这里指一个动作完美达成，成功落定。（スポーツなどで技がうまく成功する）</p>
+        <p>2. 「在怨天尤人之前，先使其发生」（四の五の言う前に起こす）：「四の五の言う」是惯用语，源自赌博时对骰子点数犹豫不决，无法下注。引申为"说三道四、抱怨、找借口；优柔寡断、犹豫不决"。</p>
+        <p>3. 「潸潸落泪，崩溃倒地的修女」（さめざめ）：压低声音，悄悄地不断流泪的样子，传达了压抑而深刻的哀伤。</p>
+        <p>4. 「将原初的拟态，即刻发动！」（拟态）：生物学现象，指一种生物在形态上模拟另一种特定的生物或物体，从而获得生存优势。如竹节虫、枯叶蝶。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song22">
+      <h2 class="song-title">2. 蒙太奇少女</h2>
+      <p class="song-subtitle">モンタージュガール</p>
+      <div class="lyrics-block">
+        <p>将一粒荒谬的念想<br />在心中培育，令其绽放<br />色彩过于饱和，我听不见。我听不见。<br /><br />飘入邻座的那盏灯火，你打算将它收起藏好吗？<br />可我至今，仍觉得那不像一句玩笑，不像一句玩笑啊。<br /><br />那些无聊的期待，不知不觉间，正化为破绽的罅隙。<br />我搬出那套可悲的固执己见<br />绝不承认。绝不承认。绝不承认。<br /><br />摆出那副「果真如此」的表情，又怎样！<br />言语已然失去意义。<br />即便如此，答案依然听不见。听不见啊。<br /><br />在如目眩般的明亮之处，藏起被囚禁的本真面目<br />那曾一直欢笑着的少女，其前路尽头预备着的，是无尽哭泣的日日夜夜，对吧。<br /><br />「将那曾是理所当然的轮廓剪下。<br />以这不足的姿态，试图将某物，拼凑粘合！<br />我曾向命运递交申请，却轻易地身陷纠缠<br />这充满指摘与挑剔的今日，就此开场！」<br /><br />重复着空虚感的如今<br />浮现的，是那个女孩的笑颜吗？<br />无法察觉这泪水颜色的真相，无法察觉啊。<br /><br />那些轻率的愚蠢错误，不知不觉间<br />已经演变成了漠不关心吗？<br />最后走到的穷途末路，预备着的，注定是老一套的误解，误解。<br /><br />若是纵身跃入那狭窄巷道的另一侧<br />天空就会坠落<br />好想看到你，从斜前方展露的脸啊，就是现在啊。来吧。<br /><br />「就在刚才，我终于明白了。那答案，我看见了。<br />仅仅凭借“想要绽放”的这个念想，就一直凝望着那前方吗？<br />即便如此，也太悲哀了啊。<br />好想掺入些玩笑啊。<br />尽是哭哭啼啼的今日，我要把它关闭了哟？」<br /><br />——将那曾是理所当然的轮廓剪下<br />——以这不足的姿态，试图将某物，拼凑粘合<br />——我曾向命运递交申请，却轻易地身陷纠缠，充满指摘与挑剔的今日，就此开场<br /><br />「只有我一个人。<br />一直，一直在此处等待。<br />将那不足的某物粘贴在心上。<br />原来，曾是如此简单的事情啊。<br />我泪流不止地笑了。」<br /><br />吐出终结的色彩。</p>
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「我搬出那套可悲的固执己见」（持論持ち）：固执己见、听不进他人意见、将自己的理论或看法绝对化并反复强调的人。往往脱离实际，沉浸在自己的逻辑闭环中。</p>
+        <p>2. 「不知不觉间，正化为绽裂的罅隙」（綻び）：核心意象是从紧密结合的状态开始分离、出现裂痕。指原本看似完美或稳固的状态开始出现问题，濒临瓦解。暗示着一种从内部开始的、缓慢而不可逆的崩坏过程。</p>
+        <p>3. 「在如目眩般的明亮之处/藏起被囚禁的本真面目」（明るみ）：是形容词明るい的名词形式，但也常指"公之于众"。这句歌词也可以是在社会的目光、他人的注视、公众的评判下，隐藏起本真面目。本真面目本身就是"被囚禁的"，还要再"隐藏"一道，也就是双重压抑和双重伪装。</p>
+        <p>4. 「这充满指摘与挑剔的今日，再度开场」（揚げ足取りの今日）：「揚げ足を取る」是惯用语，指抓住别人的小失误进行挖苦、嘲讽或攻击；吹毛求疵；鸡蛋里挑骨头。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song23">
+      <h2 class="song-title">3. 那个和这个和女孩子</h2>
+      <p class="song-subtitle">アレとコレと、女の子</p>
+      <div class="lyrics-block">
+        <p>起舞的女孩，美丽的双眸的另一侧，却是浓烈到扎眼的感情<br />焦灼之火哔啵作响，在那烈焰中，她恍然知晓，那份已在心底按下烙印的不安<br />等到疲惫不堪的夜晚，反正天一亮，那也只不过是悲伤的今天<br />那摇摇欲坠，仿佛随时会失落的未来，索性就在掌心中，将它亲手碾碎！<br /><br />在那里，女孩摇摇晃晃，穿过那曾从摇摇荡荡的水面跃起的期待<br />映照出来的，是沉没了的那颗心，它至今仍旧湿透淋漓<br /><br />就算完全依赖，现在也不在了哦？<br />爱哭鬼的笑声之类的啊<br />咯咯地笑着，洒落了就成了伤痛的思绪，没错，我正是这样欺罔着<br /><br />就连「我等着你」的那份思绪<br />事到如今，也已经模糊不清<br />首先，就不足啊。<br /><br />既然如此，就撕裂现在，去描绘梦。可这份爱，该向着何处歌唱才好？<br />那个如何？把这个给我！<br />差不多也该厌烦这喧嚣了吧<br /><br />MY&emsp;NAME&emsp;IS？<br />「久违了，我们真是，许久未见了呢」<br />无论怎样，都无法将其完成啊/无论怎样，这内心的煎熬都令人难以忍受啊<br /><br />「那个起舞的女孩，被忧郁涂抹殆尽的幼稚爱意<br />即使喝到头晕目眩，也始终笑着，将其不断饮下」<br /><br />那样的流言随风飘入耳中<br />你们有没有人感兴趣呢？/难道你们，就没一个人感兴趣吗？<br />这淅淅沥沥飘落的「今日」&emsp;我在掌心之上，把它白白浪费了<br /><br />「可是，就算是在那些再寻常不过的话语里，她也存在着啊。<br />她垂下眼帘，呐喊着，“好想哭啊”。」<br /><br />而后，仅仅沿着描绘出的声音，又要去肩负着谁的爱前行呢？<br />那个也想做，这个也想做啊。<br />干脆沉溺在任性里吧！<br /><br />「I’M&emsp;FINE<br />现在就想立刻去远方呢。」<br /><br />至于那些被你径直无视的期待什么的，可一概不存在哦。<br /><br />去厌弃那样的我吧，去等待你吧<br />可这爱，该向着何处灼烧下去才好？<br />那个怎么样？这个是那样吗？<br /><br />答案，我搞不懂啊<br /><br />MY&emsp;NAME&emsp;IS？<br />久违了，我们真是，许久未见了呢。<br /><br />究竟是为什么啊？<br /><br />？？？？？</p>
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「是什么在摇？」（揺らぐ）：物体因外部或内部力量而处于不稳定的、反复运动的状态。可指物理层面的"摇晃"与"晃动"；抽象层面的"动摇"与"不稳定"。在这首歌中，女孩身体的摇晃（物理层面）、女孩内心的动摇（心理层面）、水面的摇晃，三重含义同时存在。</p>
+        <p>2. 「等到疲惫不堪的夜晚……把未来在掌中碾碎」：这里的切入点在「哀しい今日で」的「で」。「で」表原因，直接管到了这段最后的"把未来在掌中碾碎"。而后半句"天彻底亮起，就是悲伤的今日"，整体是主人公要"干脆""索性"去碾碎未来的原因。还有一种更模糊更晦暗的可能性：不把"いっそ"（干脆，索性）视为修饰"碾碎未来"，而视为更不明显的，连动词都被消隐了的，"不如索性……"——主人公"干脆""索性"要去干什么呢，文字选择不说出来。</p>
+        <p>3. 「どうにもこうにも、やりきれないな」：「どうにもこうにも」是どうにも的强调形式（无论怎样）。「やりきれない」有双重含义：无法做完；情感上无法忍受某种状况。</p>
+        <p>4. 「浓烈到扎眼的感情」（どぎつい）：「ど」是表示状态强烈的接头词（就是"抖S""抖M"的那个"抖"）。「きつい」本来就是强烈的、辛苦的，再强烈一步，到了甚至有些扎眼、不适的程度。</p>
+        <p>5. 「久违了，我们真是，许久未见了呢」（「久しく、お会いしていませんね」）：敬语形式的问候语，生疏而礼貌，核心是陈述"我们很长一段时间没有见面了"这个客观事实。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song24">
+      <h2 class="song-title">4. 潜意识・独步舞 / Subliminal One-Step</h2>
+      <p class="song-subtitle">サブリミナル・ワンステップ</p>
+      <div class="lyrics-block">
+        <p>潜意识女孩，确凿无疑地，已在此定居<br />是否，正拖拽着某一种误解？<br />将无数个「莫非就是今天」的今天不断重复，再一次，她摆出一副尽在掌握的得意嘴脸，朝我背转过身去<br /><br />「我的内部，依然空空如也」 那声音，如今也已经<br />断断续续，断断续续<br /><br />「激动人心的大新闻，我刚刚收到了！」<br />——这么喊着，她雀跃地跳着，笑了！<br /><br />潜意识般的心情，摇摇晃晃地描画着环状线，渐渐沉没<br />这循环折返的今日，它啊，卷起涡旋，升向天空<br />迸裂四散，究竟要去往何处？<br /><br />「我无论何时，都在等待<br />等待着那，终将来到那里的昨日」<br /><br />某种不可名状的色彩正在我的眼睑内侧，异常喧嚣地骚动不休<br /><br />「这是理所当然的啊，让声音满溢而出吧。<br />若是在你面前，我便能放声痛哭。<br />此刻我想做的事，唯有竭力嘶喊，是的。<br />将那副身姿，留存下来吧。」<br /><br />想怎么做也好，想这么做也好<br />真心话，都无聊透顶<br />就在那妄想之中，起舞吧，起舞吧<br />索性彻底引发一场格式塔崩坏吧<br />鼓吹着那份理想，旋转吧，旋转吧！<br /><br />「无可挽回的言语之叶层层叠叠，究竟累积了多少呢？<br />要现在，立刻，就把“那个东西”（ソレ）一饮而尽吗？<br />诶，你应该一直都能听见的吧？」<br /><br />不知不觉间已粘附胶着的声响<br />我明明有所认识：这无疑是无计可施的<br />潜意识女孩，确凿无疑地，栖附于身<br />又在将那「莫非就是今天」的今天，不断重复！！！<br /><br />「直到我放弃“当下”为止，我只想将这颗心尽数吐出<br />我一直在眼睑之下，拼命地隐藏着那不可名状的色彩」<br /><br />「这是理所当然的啊，“那个东西”（ソレ），你为什么要那么对待它？<br />若是在你面前，我便能放声痛哭啊<br />那些笑不出来的事情，“那个东西”（ソレ），不也挺好吗<br />将那副身姿，留存下来吧？」<br /><br />拙劣的简短戏剧也好，一切的终局也罢，都相当无聊<br />速速退开此地，退开此地，那声音就要泄露了<br />狼狈不堪也好，门可罗雀也罢，连同这哭泣的今日一道<br />看看那实情，放声笑吧，笑吧<br /><br />想那么做也好，想这么做也好<br />真心话都无聊透顶！<br />就在那妄想之中，起舞吧，起舞吧<br />索性彻底引发一场格式塔崩坏吧<br />鼓吹着那份理想，旋转吧，旋转吧！</p>
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「Subliminal One-Step」：Subliminal——sub-（在……之下的）+limen（门槛、阈值），也就是低于意识感知阈值的刺激或心理过程。中文里也可以处理为"潜意识"。One-Step可以是一步舞、一步、一步到位。</p>
+        <p>2. 「潜意识女孩，确凿无疑地，栖附于身」（棲み憑く）：「棲む」意为栖息；「憑く」指（妖魔、诅咒、灵魂等）附体、作祟。指某种超自然的、消极的力量附着于人或物体之上。</p>
+        <p>3. 「不知不觉间已粘附胶着的声响」（こびり着く）：某种物体牢固地粘附在另一种物体表面，带有难以清除、污渍般的附着感（质地类似糊在锅底的污垢）。</p>
+        <p>4. 「"那个东西"，你为什么要那么对待它？」（ソレをどうして？）：动词被省略了，留给读者自行补全。</p>
+        <p>5. 「看看那实情，放声笑吧，笑吧」（実態）：表面上看不到的真实面貌或实际状况，强调不加掩饰的现实状态。</p>
+        <p>6. 「速速退开此地，退开此地」（そこのけ）：江户时代，大名行列（诸侯出行的队伍）开道驱散行人时使用的格式化命令用语。是一种非常夸张的表达方式。</p>
+        <p>7. 「格式塔崩坏」：原本作为一个整体被认知的对象，其形态上的统一感突然瓦解，各个部分变得支离破碎、失去意义的现象。例如，长时间盯着同一个汉字看，会突然觉得这个字变得陌生、怪诞，甚至完全不认识了。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song25">
+      <h2 class="song-title">5. 噜啦噜啦</h2>
+      <p class="song-subtitle">るらるら</p>
+      <div class="lyrics-block">
+        <p>你是被夺走的照明，一遍又一遍地，频繁寻觅<br />在那毫无破绽的日常的彼岸，被盗走的憧憬，境况如何？<br /><br />那仅止于无趣的口舌纷争，我早在久远的过去，就已将其悉数抛弃<br />现在，立刻，把那个答案交出来<br />那样一来，门扉就会彻底堵死<br /><br />飘摇&emsp;欲坠&emsp;的我&emsp;早已失格<br /><br />「微不足道的事，一件也没有」——这妄想在两侧迸裂<br />我不会成为任何一方的同伴，这怯懦的我<br /><br />总而言之，诘问不予回应，我将前去驱散那些簇拥<br />若是将那份期待全然违背<br />又能怎样？接下来的数秒，会因此改变吗？<br /><br />啊，原来如此，我终于确信了那看不见的魅力的真实面目<br />索性，就做个在周而复始中迷途的孩子，若能将羞耻尽数抛弃！<br /><br />无论怀抱着何种无法承认的思绪<br />「你（あなた）的存在里，有我（僕）。」<br /><br />这不成器的未来，诚然如此<br />就将它封存在这斗室之中吧<br /><br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br /><br />只是痴痴地望着灯火般照亮的明日罢了，我啊&emsp;我啊&emsp;我啊<br /><br />在这浅薄的夜之底，两侧不断校对着，毫不存在的答案<br />双方都同样笨拙得可以，看来只是这样周而复始罢了<br /><br />那仅止于无趣的“异世界”，今日亦在虚空中徒然旋转<br />即便是这作戏般的人生的真实面目，我也渴望，见证接下来的几秒钟啊<br /><br />真是凄惨啊，那看不见的希望之桥，就不能让给我吗？<br />对这不成体统的度日，是啊，我已经厌倦了<br /><br />我知晓了，自己乃是独自一人<br />「我（わたし）的存在里，有你（君）。」<br /><br />那些本应无法听闻的破绽<br />就把它封存在昨日之中吧<br /><br />无论怀抱着何种无法承认的思绪<br />「你（あなた）的存在里，有我（僕）。」<br /><br />这无能为力的答案，诚然如此<br />就将它封存在这斗室之中吧<br /><br />我知晓了，自己乃是独自一人<br />「我（わたし）的存在里，有你（君）。」<br /><br />这枚早已见惯的心之楔，就将它封存在此处吧<br /><br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦<br /><br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦<br /><br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦啦&emsp;噜啦<br />噜啦</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song26">
+      <h2 class="song-title">6. 空之碎物</h2>
+      <p class="song-subtitle">カラノワレモノ</p>
+      <div class="lyrics-block">
+        <p>尽是些，无聊透顶的空话<br />轻飘飘地，一个女孩悬浮着<br />想象只是徒然飘向远方，在这毫无张力的生活之中<br /><br />若是一切念想尽数枯萎，也就不会再被谁看穿了吧？<br /><br />颠倒地，去往透明梦境的深处<br /><br />每当我拼命挣扎着想要忆起，那开端便愈发无迹可寻<br />已经是荡然无存的样子了啊<br /><br />那份背向未来的消极感情，只是反复命令我「给我去笑！」,仅此而已<br /><br />只是将那件事情，不断重复<br /><br />怎么会变成这样？你在向我索求什么？<br />「好痛」之类的话全部是谎言，我穿上了根本不合脚的鞋<br /><br />就那样，就那样，你把后背转向了我<br />仿佛要将那份失落的痛楚，彻底隐藏<br /><br />好想哭啊&emsp;好想放声歌唱啊<br />你，能不能注意到这个我呢？<br />我曾一度几乎要握住的浅淡情意，也正是，这翻滚坠落了的今日<br /><br />好想绽放啊&emsp;好想开怀大笑啊<br />那么，先凭这初学乍练的理想，去向远方，直到远方<br /><br />尽是些，无计可施的言语<br />为什么呢，我竟渐渐熟稔于这房间<br />用这颗消耗过半的心，终究是无法顺畅言说<br /><br />怎么会变成这样？你在向我索求什么？<br />我自嘲着「真软弱啊」而逃进的这个场所<br />此处，无计可施地，是今日<br /><br />就那样，就那样！<br />你向我展露笑颜<br />仿佛要伸出那只，我刚刚失落的手<br /><br />那份哀恸，我多想将它嘶吼成声<br />即便那只会是空洞的话语<br />喊着「想传达给你」而嘶哑至今的嗓音，正是已然斩断迷惘的昨日<br /><br />就拥抱着这疲惫不堪的意义，走下去吧<br />回想起来，我向来如此啊，去向远方，直到远方<br /><br />好想哭啊&emsp;好想放声歌唱啊<br />你，能不能注意到这个我呢？<br />我曾一度几乎要握住的浅淡情意，也正是，这翻滚坠落了的今日<br /><br />好想绽放啊&emsp;好想开怀大笑啊<br />此处，本就与任何地方相连，是的。</p>
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「空之碎物」（カラノワレモノ）：「空（カラ）」不是"天空"，而是"虚空，空无"——不仅指物理上的空无一物，也指向事物的非实在性、无常与虚无。对应的汉字也可能是"殻"——外壳、躯壳或蝉蜕，象征着包裹、隔绝与伪装。「碎物（ワレモノ）」并不是"碎了"的东西，而是"易碎"的东西，常用于邮寄包裹上的警示（"易碎品"）。"碎物"是已经破碎的结果，而"易碎品"是时刻处于可能破碎的威胁之下的状态。此外，ワレ也是"我"，所以"ワレモノ"也可以是"我这件东西"。组合起来，标题呈现出立体的多重可能性：《空の割れ物》——一件空洞的易碎品；《殻の割れ物》——一件在外壳中的易碎品；《空の我・物》——一个空洞的自我；《殻の我・物》——一个被外壳禁锢的自我。</p>
+        <p>2. 「尽是些，无聊透顶的空话/尽是些，无计可施的话语」：「しょうもない」意为"无聊的、无价值的、琐碎的、愚蠢的"，带有强烈的贬义和不耐烦。「どうしようもない」意为"没办法的、无能为力的、无可奈何的"，强调彻底的无力感和绝望。</p>
+        <p>3. 「那份背向未来的消极感情」（後ろ向き）：字面意思是"朝向后面、背对着"，引申义为"消极的、悲观的、倒退的、不愿前进的"。</p>
+        <p>4. 「用这颗消耗过半的心/终究是无法顺畅言说」（使いかけ）：由动词「使う」的ます形加上接尾词「かけ」构成，表示"动作进行到一半，尚未完成"的状态。显示出「〜かけ」所传达的"未完成、不完整"的意象。</p>
+      </div>
+    </div>
+
+    <div class="song-section" id="song27">
+      <h2 class="song-title">7. 泡色的街</h2>
+      <p class="song-subtitle">泡色の街</p>
+      <div class="lyrics-block">
+        <p>「我曾看得失神，对你的心。<br />在我的心中，播下了种子。」<br /><br />不知不觉间的今天，也同样因为悲伤，无法完全睁开双眼<br /><br />「哈喽，听得到吗。<br />我这边还是老样子，总是重复着误认。」<br /><br />几千个疑问在追寻答案，今天，也依旧做着徒劳的挣扎！<br /><br />我绕了远路，为每一次呼吸找个理由。<br />吵死人了，好焦灼啊，却又不止于此<br /><br />要是能互相分享玩笑就好了啊<br />——我这么想着，满脑子都这么想着<br /><br />把我（僕）的声音，现在，向着泡色的天空放飞吧，就是现在。<br />即便轻飘飘地，融化消失。<br /><br />没错，此刻，将被黄金色濡湿的心念<br />尽数遗忘吧<br /><br />不经意的期待正将我（わたし）崩解<br />曾用言语奏响的意义，已然失落<br />敷衍了事的心情一边假作镇定，一边仅仅只是不停地翻滚着<br /><br />那又怎样？走失了又怎样？<br />一直以来都搞错了吗，又怎样？<br />真想一脚踹开这狼藉的当下，继续前行<br />但是，那倾吐而出的感情、那思绪的真身，我曾死死攥着它的那只手，给我松开啊！<br /><br />没错，现在，我将独自一人呼喊出的声音，现在。<br />就丢弃在这里了哟。<br />没错，现在<br />就让我们将仍不餍足的昨日种种，尽数遗忘吧<br /><br />我曾看得失神<br />对你的心<br />在我的心中<br />播下了种子<br /><br />不知不觉间的今天，也同样因为悲伤，无法完全睁开双眼<br /><br />是啊，就是现在！<br />将泡色的歌放飞吧，就在此刻。<br />即便轻飘飘地<br />融化消失<br />没错，此刻，将被黄金色濡湿的心念、那心念——<br /><br />尽&emsp;数&emsp;遗&emsp;忘&emsp;吧！</p>
+      </div>
+      <div class="annotation-block">
+        <h4>[注释]</h4>
+        <p>1. 「勘違い」：如果推到"认识错误和沟通失败"的程度的话，感觉就非常本质了……</p>
+        <p>2. 「敷衍了事的心情一边假作镇定」（嘯く）：核心含义1——佯装不知、故作镇静，在面对质问或不利情况时，内心清楚事实，但表面上故意装出一副不知道、若无其事的样子。核心含义2——逞强，夸大其词，即便实际胜算不大，但仍然豪言壮语，发表远超自身实力或现实情况的宏大言论。</p>
+        <p>3. 「走散了又怎样？」（はぐれたって？）：「はぐれる」意为走散——要点包括：①原本有一个与其紧密联结的群体；②分离的动作并不是当事人愿意的；③分离给当事人造成了负面结果。引申为错过、没赶上、失去机会。「たって？」是自暴自弃式的、挑衅的反问语气。</p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 wowakashinsei.art · 个人翻译作品，仅供同好交流</p>
+    </footer>
+
+  </div>
+  <!-- /main-container -->
+
+  <!-- ==================== JavaScript 自动目录生成与高亮 ==================== -->
+  <script>
+    (function() {
+      const tocList = document.getElementById('tocList');
+      const songSections = document.querySelectorAll('.song-section');
+      const albumDividers = document.querySelectorAll('.album-divider');
+      const tocLinks = [];
+
+      // 1. 遍历所有专辑分隔和歌曲章节，生成目录
+      albumDividers.forEach((divider) => {
+        const albumTitle = divider.querySelector('h2');
+        if (!albumTitle) return;
+        const albumId = divider.getAttribute('id');
+
+        const albumItem = document.createElement('li');
+        albumItem.className = 'toc-album';
+        albumItem.textContent = albumTitle.textContent.trim();
+        tocList.appendChild(albumItem);
+
+        // 找到这个专辑后面的所有歌曲，直到下一个专辑分隔
+        let nextSibling = divider.nextElementSibling;
+        while (nextSibling && nextSibling.classList.contains('song-section')) {
+          const titleElement = nextSibling.querySelector('.song-title');
+          if (titleElement) {
+            const titleText = titleElement.textContent.trim();
+            const sectionId = nextSibling.getAttribute('id');
+
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = '#' + sectionId;
+            link.textContent = titleText;
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+
+            listItem.appendChild(link);
+            tocList.appendChild(listItem);
+            tocLinks.push({ link, sectionId });
+          }
+          nextSibling = nextSibling.nextElementSibling;
+        }
+      });
+
+      // 2. 滚动时高亮当前章节对应的目录项
+      function highlightTocOnScroll() {
+        let currentSectionId = '';
+        songSections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 180) {
+            currentSectionId = section.getAttribute('id');
+          }
+        });
+
+        tocLinks.forEach(item => {
+          item.link.classList.remove('toc-active');
+          if (item.sectionId === currentSectionId) {
+            item.link.classList.add('toc-active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', highlightTocOnScroll);
+      highlightTocOnScroll(); // 初始调用
+
+      // 3. 移动端目录显示/隐藏
+      const sidebarToc = document.getElementById('sidebarToc');
+      const tocToggleBtn = document.getElementById('tocToggleBtn');
+
+      if (tocToggleBtn && sidebarToc) {
+        tocToggleBtn.addEventListener('click', function() {
+          sidebarToc.classList.toggle('visible');
+        });
+
+        // 点击目录内链接后自动收起（移动端）
+        tocList.addEventListener('click', function(e) {
+          if (e.target.tagName === 'A' && window.innerWidth <= 1024) {
+            sidebarToc.classList.remove('visible');
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
