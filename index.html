@@ -5,90 +5,340 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>wowaka 歌词中译本 · 目录</title>
   <style>
-    /* 全局样式，和你的原版保持一致，只做微小调整 */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ============================================================
+       设计变量：沿用原有配色，仅新增一个用于「规约」强调的暖棕
+       ============================================================ */
+    :root{
+      --paper:       #faf8f5;
+      --card:        #ffffff;
+      --ink:         #3b3a36;
+      --ink-strong:  #4a463b;
+      --ink-soft:    #4f4d47;
+      --muted:       #8b8678;
+      --line:        #e0dcd3;
+      --line-soft:   #ece7de;
+      --accent:      #a8734f;
+      --accent-wash: #f7efe6;
     }
-    body {
-      background-color: #faf8f5;
-      color: #3b3a36;
-      font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", "Georgia", "华文中宋", "宋体", serif;
-      line-height: 1.8;
-      font-size: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
+
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      background-color:var(--paper);
+      color:var(--ink);
+      font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","Times New Roman","Georgia","华文中宋","宋体",serif;
+      line-height:1.8;
+      font-size:18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:100vh;
+      -webkit-text-size-adjust:100%;
     }
-    .home-container {
-      text-align: center;
-      padding: 40px 20px;
-      max-width: 780px;
+
+    .home-container{
+      width:100%;
+      max-width:780px;
+      margin:auto 0;              /* 内容短时垂直居中；内容超长时正常从页顶滚动 */
+      padding:40px 20px;
+      text-align:center;
     }
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 400;
-      letter-spacing: 6px;
-      margin-bottom: 10px;
-      color: #4a463b;
+
+    h1{
+      font-size:2.8rem;
+      font-weight:400;
+      letter-spacing:6px;
+      margin-bottom:10px;
+      color:var(--ink-strong);
     }
-    .subtitle {
-      font-size: 1rem;
-      color: #8b8678;
-      font-style: italic;
-      margin-bottom: 50px;
-      border-bottom: 1px solid #e0dcd3;
-      padding-bottom: 25px;
+
+    .subtitle{
+      font-size:1rem;
+      color:var(--muted);
+      font-style:italic;
+      margin-bottom:14px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:25px;
     }
-    .album-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 25px;
-      margin-bottom: 50px;
+
+    .hint{
+      font-size:.85rem;
+      color:var(--muted);
+      margin-bottom:44px;
     }
-    .album-card {
-      background-color: #ffffff;
-      border: 1px solid #e0dcd3;
-      border-radius: 8px;
-      padding: 30px 20px;
-      text-decoration: none;
-      color: #3b3a36;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-      display: block;
+    .hint a{
+      color:var(--accent);
+      text-decoration:none;
+      border-bottom:1px solid #e2cdb8;
     }
-    .album-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 20px rgba(0,0,0,0.06);
-      border-color: #c2b8a7;
-      color: #4a463b;
+    .hint a:hover{ border-bottom-color:var(--accent); }
+
+    .album-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:25px;
+      margin-bottom:50px;
     }
-    .card-title {
-      font-size: 1.4rem;
-      font-weight: 400;
-      margin-bottom: 5px;
-      letter-spacing: 2px;
+    .album-card{
+      background-color:var(--card);
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:30px 20px;
+      text-decoration:none;
+      color:var(--ink);
+      transition:all .3s ease;
+      box-shadow:0 4px 6px rgba(0,0,0,.02);
+      display:block;
     }
-    .card-subtitle {
-      font-size: 0.8rem;
-      color: #8b8678;
+    .album-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 12px 20px rgba(0,0,0,.06);
+      border-color:#c2b8a7;
+      color:var(--ink-strong);
     }
-    .footer {
-      margin-top: 80px;
-      font-size: 0.85rem;
-      color: #8b8678;
-      border-top: 1px solid #e0dcd3;
-      padding-top: 20px;
+    .card-title{
+      font-size:1.4rem;
+      font-weight:400;
+      margin-bottom:5px;
+      letter-spacing:2px;
+    }
+    .card-subtitle{
+      font-size:.8rem;
+      color:var(--muted);
+    }
+
+    /* ============================================================
+       利用规约
+       ============================================================ */
+    .license{
+      text-align:left;
+      background-color:var(--card);
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:38px 36px 28px;
+      box-shadow:0 4px 6px rgba(0,0,0,.02);
+    }
+
+    .license-title{
+      font-size:1.35rem;
+      font-weight:400;
+      letter-spacing:.42em;
+      text-indent:.42em;
+      text-align:center;
+      color:var(--ink-strong);
+    }
+
+    .license-lead{
+      text-align:center;
+      font-size:.86rem;
+      color:var(--muted);
+      line-height:2;
+      margin:14px 0 30px;
+      padding-bottom:24px;
+      border-bottom:1px solid var(--line-soft);
+    }
+
+    .license-list{ list-style:none; }
+
+    .license-item{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      padding:18px 0;
+      border-bottom:1px dashed var(--line-soft);
+    }
+    .license-item:last-child{
+      border-bottom:0;
+      padding-bottom:6px;
+    }
+
+    .license-num{
+      flex:0 0 auto;
+      padding-top:6px;
+      font-family:"Georgia","Times New Roman",serif;
+      font-size:.78rem;
+      letter-spacing:.08em;
+      color:var(--accent);
+      font-variant-numeric:tabular-nums;
+    }
+
+    .license-body{ flex:1 1 auto; min-width:0; }
+
+    .license-head{
+      font-size:1.02rem;
+      font-weight:600;
+      letter-spacing:.04em;
+      line-height:1.6;
+      color:var(--ink-strong);
+      margin-bottom:6px;
+    }
+
+    .license-body p{
+      font-size:.94rem;
+      color:var(--ink-soft);
+    }
+    .license-body strong{
+      font-weight:600;
+      color:var(--ink-strong);
+    }
+
+    .license-sub{
+      list-style:none;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:10px 0 0;
+    }
+    .license-sub li{
+      font-size:.84rem;
+      line-height:1.7;
+      letter-spacing:.02em;
+      color:#5c5952;
+      background:#f3efe8;
+      border:1px solid #eae4da;
+      border-radius:999px;
+      padding:1px 13px;
+    }
+
+    .license-note{
+      margin-top:12px;
+      padding-left:12px;
+      border-left:2px solid var(--line);
+      font-size:.86rem;
+      color:var(--muted);
+    }
+
+    /* —— 第 4 条：特殊条款 —— */
+    .license-special{
+      margin-top:24px;
+      padding:22px 24px 20px;
+      background:var(--accent-wash);
+      border:1px solid #ecdcc9;
+      border-left:3px solid var(--accent);
+      border-radius:6px;
+    }
+    .license-badge{
+      display:inline-block;
+      margin-bottom:10px;
+      padding:2px 12px;
+      font-size:.7rem;
+      line-height:1.9;
+      letter-spacing:.28em;
+      text-indent:.28em;
+      color:#fff;
+      background:var(--accent);
+      border-radius:3px;
+    }
+    .license-head-special{ margin-bottom:8px; }
+    .license-special p{
+      font-size:.94rem;
+      color:var(--ink-soft);
+    }
+    .license-aside{
+      margin-top:12px;
+      font-size:.84rem;
+      font-style:italic;
+      line-height:1.9;
+      color:var(--muted);
+    }
+    .mark{
+      background:linear-gradient(transparent 62%, #f0dcc7 62%);
+      color:#7a4c2e;
+      font-weight:600;
+      padding:0 2px;
+    }
+
+    .handle{
+      display:inline-block;
+      margin-left:2px;
+      padding:0 8px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+      font-size:.88em;
+      color:var(--ink-strong);
+      background:#f3efe8;
+      border:1px solid #eae4da;
+      border-radius:4px;
+      white-space:nowrap;
+      user-select:all;
+      -webkit-user-select:all;
+    }
+
+    /* ============================================================
+       页脚
+       ============================================================ */
+    .footer{
+      margin-top:60px;
+      padding-top:20px;
+      border-top:1px solid var(--line);
+      font-size:.85rem;
+      color:var(--muted);
+    }
+    .footer-rules{
+      margin-top:10px;
+      font-size:.8rem;
+      line-height:2;
+    }
+    .footer-link{
+      margin-top:12px;
+      font-size:.8rem;
+    }
+    .footer-link a{
+      color:var(--accent);
+      text-decoration:none;
+      border-bottom:1px solid #e2cdb8;
+    }
+    .footer-link a:hover{ border-bottom-color:var(--accent); }
+
+    /* ============================================================
+       小屏适配
+       ============================================================ */
+    @media (max-width:640px){
+      body{ font-size:16px; line-height:1.75; }
+      .home-container{ padding:28px 16px 40px; }
+      h1{ font-size:2rem; letter-spacing:4px; }
+      .subtitle{ font-size:.9rem; }
+      .hint{ margin-bottom:32px; }
+      .album-grid{
+        grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+        gap:16px;
+        margin-bottom:38px;
+      }
+      .album-card{ padding:22px 14px; }
+      .card-title{ font-size:1.15rem; }
+      .license{ padding:26px 20px 22px; border-radius:6px; }
+      .license-item{ gap:12px; padding:16px 0; }
+      .license-num{ font-size:.75rem; }
+      .license-special{ padding:20px 18px 18px; }
+      .footer{ margin-top:48px; }
+    }
+
+    /* ============================================================
+       打印 / 导出 PDF
+       ============================================================ */
+    @media print{
+      body{ display:block; background:#fff; font-size:12pt; }
+      .home-container{ margin:0 auto; padding:0; max-width:none; }
+      .album-card,
+      .license{ box-shadow:none; }
+      .license-special{ background:#fff; }
+      .hint{ display:none; }
     }
   </style>
 </head>
 <body>
+  <!--
+    wowaka 歌词中译本 · 利用规约
+    1. 非商业目的可随意使用（视频字幕 / 手书 / 无料等），无需额外授权。
+    2. 歌词集 + 注释集文档本身可随意传播。
+    3. 禁止涉及金钱 / 禁止自作发言 / 禁止未经授权二改。
+    4. 特例：若能上传流媒体滚动歌词（网易云音乐 / QQ音乐），可自愿放弃署名权。
+    勘误请联系 小红书 @一只摆烂鼠
+  -->
   <div class="home-container">
     <h1>wowaka 歌词中译本</h1>
     <p class="subtitle">共计96首 / 6.1万字译文 · 4.3万字注释 / 按专辑索引</p>
+    <p class="hint">取用之前，请先读一遍 <a href="#license">利用规约</a></p>
 
     <div class="album-grid">
       <a href="vocaloid.html" class="album-card">
@@ -124,19 +374,82 @@
         <div class="card-subtitle">全10首</div>
       </a>
       <a href="singles.html" class="album-card">
-        <div class="card-title">单曲 & 供曲</div>
+        <div class="card-title">单曲 &amp; 供曲</div>
         <div class="card-subtitle">全15首</div>
       </a>
-      <!-- 新增：译者附言卡片，样式与上述完全一致 -->
+      <!-- 译者附言卡片，样式与上述完全一致 -->
       <a href="translator-note.html" class="album-card">
         <div class="card-title">译者附言</div>
         <div class="card-subtitle">兼论“作者意图”的判定路径</div>
       </a>
     </div>
 
+    <!-- ============================================================
+         利用规约（可被页内锚点 #license 直接跳转）
+         ============================================================ -->
+    <section class="license" id="license" aria-labelledby="license-title">
+      <h2 class="license-title" id="license-title">利用规约</h2>
+      <p class="license-lead">
+        2026.9.21<br>
+        
+      </p>
+
+      <ol class="license-list">
+        <li class="license-item">
+          <span class="license-num" aria-hidden="true">01</span>
+          <div class="license-body">
+            <h3 class="license-head">非商业目的 · 可随意使用</h3>
+            <p>包括但不限于视频字幕、手书、无料等，<strong>无需额外找译者要授权</strong>。</p>
+          </div>
+        </li>
+
+        <li class="license-item">
+          <span class="license-num" aria-hidden="true">02</span>
+          <div class="license-body">
+            <h3 class="license-head">歌词集 / 注释集 · 可自由传播</h3>
+            <p>小红书上配布的《歌词集》与《注释集》文档本身，也可以随意转发、随意分享。</p>
+          </div>
+        </li>
+
+        <li class="license-item">
+          <span class="license-num" aria-hidden="true">03</span>
+          <div class="license-body">
+            <h3 class="license-head">三条禁止</h3>
+            <ul class="license-sub">
+              <li>禁止涉及金钱</li>
+              <li>禁止自作发言</li>
+              <li>禁止未经授权二改</li>
+            </ul>
+            <p class="license-note">若发现需要修改的地方，辛苦联系小红书 <span class="handle">@一只摆烂鼠</span></p>
+          </div>
+        </li>
+      </ol>
+
+      <!-- 第 4 条：特殊条款，单独成块以示区别 -->
+      <aside class="license-special" role="note" aria-labelledby="license-special-title">
+        <span class="license-badge">特例</span>
+        <h3 class="license-head license-head-special" id="license-special-title">
+          如果能帮忙上传流媒体滚动歌词
+        </h3>
+        <p>
+          如果有哪位老师能把歌词传到流媒体平台配的滚动歌词里（网易云音乐 / QQ音乐），
+          <span class="mark">译者可以自愿放弃署名权</span>。
+        </p>
+        <p class="license-aside">
+          （我实在和平台 battle 不动了，但好像又不是完全传不上去……？总之我搞不懂 orz）
+        </p>
+		
+      </aside>
+	  <br>
+    </section>
+
     <div class="footer">
       <p>© 2026 wowakashinsei.art · 个人翻译作品，仅供同好交流</p>
-      <p style="margin-top: 10px; font-size: 0.8rem;">可用于粉丝创作 · 禁止商用 · 禁止未经授权二改</p>
+      <p class="footer-rules">
+        非商业使用无需授权 · 歌词集与注释集可自由传播<br>
+        禁止涉及金钱 · 禁止自作发言 · 禁止未经授权二改
+      </p>
+      <p class="footer-link"><a href="#license">↑ 查看完整《利用规约》</a></p>
     </div>
   </div>
 </body>
